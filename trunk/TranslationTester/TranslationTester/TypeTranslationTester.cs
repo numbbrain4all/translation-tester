@@ -32,23 +32,31 @@ using TranslationTester.Exceptions;
 
 namespace TranslationTester
 {
+	/// <summary>
+	/// A class used to specify the translation between two types and then
+	/// test that a translator meets the specification.
+	/// </summary>
 	public class TypeTranslationTester<TFrom,TTo>
 	{
-		public bool AllPropertiesMapped{
-			get{
-				return unmappedProperties.Count==0;
-			}
-		}
-		
 		List<string> unmappedProperties;
 		List<string> allToProperties;
 		//List<SimpleMapping> simpleMappings;
 		
+		/// <summary>
+		/// Gets whether all the properties on the 'From' type have been mapped or excluded.
+		/// </summary>
+		public bool AllPropertiesMapped{
+			get{
+				return unmappedProperties.Count==0;
+			}
+		}		
 		
+		/// <summary>
+		/// Creates a new <see cref="TypeTranslationTester"/> 
+		/// </summary>
 		public TypeTranslationTester()
 		{
-			//simpleMappings=new List<SimpleMapping>();
-			
+			//simpleMappings=new List<SimpleMapping>();			
 			InitializeFromProperties();
 			InitializeToProperties();			
 		}
@@ -71,7 +79,11 @@ namespace TranslationTester
 			}
 		}
 
-		
+		/// <summary>
+		/// Adds a simple one-to-one mapping to the translation specification.
+		/// </summary>
+		/// <param name="fromProperty">The name of the property on the 'From' type.</param>
+		/// <param name="toProperty">The name of the property on the 'To' type.</param>
 		public void AddMapping(string fromProperty, string toProperty){
 			if(false==unmappedProperties.Contains(fromProperty)){
 				throw new PropertyNotFoundException();
@@ -83,7 +95,10 @@ namespace TranslationTester
 			//simpleMappings.Add(new SimpleMapping(fromProperty,toProperty));
 		}
 		
-		public void VerifyAllPropertiesMapped(TFrom from, TTo to){
+		/// <summary>
+		/// Verifies that all the properties on the 'From' type were mapped or excluded.
+		/// </summary>
+		public void VerifyAllPropertiesMapped(){
 			if(unmappedProperties.Count>0){
 				throw new UnmappedPropertyException();
 			}

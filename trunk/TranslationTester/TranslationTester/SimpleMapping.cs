@@ -31,13 +31,24 @@ using System;
 namespace TranslationTester
 {	
 	/// <summary>
-	/// Description of SimpleMapping.
+	/// Represents a one-to-one mapping between properties on two classes.
 	/// </summary>
 	public class SimpleMapping
 	{
+		/// <summary>
+		/// The name of the property on the 'From' class.
+		/// </summary>
 		public string FromProperty{get;private set;}
+		/// <summary>
+		/// The name of the property on the 'To' class.
+		/// </summary>
 		public string ToProperty{get;private set;}
 		
+		/// <summary>
+		/// Creates a new <see cref="SimpleMapping" />.
+		/// </summary>
+		/// <param name="fromProperty"></param>
+		/// <param name="toProperty"></param>
 		public SimpleMapping(string fromProperty, string toProperty){
 			FromProperty=fromProperty;
 			ToProperty=toProperty;
