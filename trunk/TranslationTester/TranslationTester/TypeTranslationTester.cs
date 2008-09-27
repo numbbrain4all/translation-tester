@@ -34,6 +34,12 @@ namespace TranslationTester
 {
 	public class TypeTranslationTester<TFrom,TTo>
 	{
+		public bool AllPropertiesMapped{
+			get{
+				return unmappedProperties.Count==0;
+			}
+		}
+		
 		List<string> unmappedProperties;
 		List<string> allToProperties;
 		//List<SimpleMapping> simpleMappings;
