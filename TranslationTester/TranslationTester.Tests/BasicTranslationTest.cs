@@ -48,10 +48,17 @@ namespace TranslationTester.Tests
 	
 		[Test]
 		[Description(@"Having an unmapped property should cause the translation tester
-			to throw an exception")]
+			to throw an exception when running VerifyAllPropertiesMapped")]
 		[ExpectedException(typeof(UnmappedPropertyException))]
 		public void UnmappedPropertyCausesTestToFail(){			
 			target.VerifyAllPropertiesMapped(from,to);			
+		}
+		
+		[Test]
+		[Description(@"Having an unmapped property should mean that the AllPropertiesMapped
+			property will be false")]
+		public void AllPropertiesMappedFalseWhenUnmappedProperty(){			
+			Assert.That(target.AllPropertiesMapped==false);
 		}
 		
 		[Test]
@@ -59,6 +66,13 @@ namespace TranslationTester.Tests
 		public void MappedPropertyDoesNotThrow(){
 			target.AddMapping("Property1","Property1");
 			target.VerifyAllPropertiesMapped(from,to);			
+		}
+		
+		[Test]
+		[Description(@"If a mapping is added for all properties AllPropertiesMapped should be true")]
+		public void AllPropertiesMapped(){
+			target.AddMapping("Property1","Property1");
+			Assert.That(target.AllPropertiesMapped);
 		}
 		
 		[Test]
@@ -73,8 +87,6 @@ namespace TranslationTester.Tests
 		[ExpectedException(typeof(PropertyNotFoundException))]
 		public void AddInvalidMappingToThrows(){
 			target.AddMapping("Property1","invalid");
-		}
-		
-		
+		}		
 	}
 }
