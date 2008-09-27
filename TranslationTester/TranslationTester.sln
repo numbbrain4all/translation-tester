@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+# SharpDevelop 3.0.0.3437
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationTester", "TranslationTester\TranslationTester.csproj", "{129A265A-2D69-473F-A572-8D4C2B976CE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationTester.Tests", "TranslationTester.Tests\TranslationTester.Tests.csproj", "{7C3C17A6-927C-4801-8E44-E9CADFEC622D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{129A265A-2D69-473F-A572-8D4C2B976CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{129A265A-2D69-473F-A572-8D4C2B976CE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{129A265A-2D69-473F-A572-8D4C2B976CE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{129A265A-2D69-473F-A572-8D4C2B976CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C3C17A6-927C-4801-8E44-E9CADFEC622D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C3C17A6-927C-4801-8E44-E9CADFEC622D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C3C17A6-927C-4801-8E44-E9CADFEC622D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C3C17A6-927C-4801-8E44-E9CADFEC622D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+EndGlobal
