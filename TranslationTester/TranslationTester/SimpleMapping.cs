@@ -26,32 +26,36 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System;
-
 namespace TranslationTester
-{	
-	/// <summary>
-	/// Represents a one-to-one mapping between properties on two classes.
-	/// </summary>
-	public class SimpleMapping
-	{
-		/// <summary>
-		/// The name of the property on the 'From' class.
-		/// </summary>
-		public string FromProperty{get;private set;}
-		/// <summary>
-		/// The name of the property on the 'To' class.
-		/// </summary>
-		public string ToProperty{get;private set;}
-		
-		/// <summary>
-		/// Creates a new <see cref="SimpleMapping" />.
-		/// </summary>
-		/// <param name="fromProperty"></param>
-		/// <param name="toProperty"></param>
-		public SimpleMapping(string fromProperty, string toProperty){
-			FromProperty=fromProperty;
-			ToProperty=toProperty;
-		}
-	}
+{
+  using System;
+  
+  /// <summary>
+  /// Represents a one-to-one mapping between properties on two classes.
+  /// </summary>
+  public class SimpleMapping
+  {    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SimpleMapping" /> class.
+    /// </summary>
+    /// <param name="fromProperty">The property on the 'From' class.</param>
+    /// <param name="toProperty">The property on the 'To' class.</param>
+    public SimpleMapping(string fromProperty, string toProperty)
+    {
+      this.FromProperty = fromProperty;
+      this.ToProperty = toProperty;
+    }
+    
+    /// <summary>
+    /// Gets the name of the property on the 'From' class.
+    /// </summary>
+    /// <value>The property on the 'From' class.</value>
+    public string FromProperty { get; private set; }
+    
+    /// <summary>
+    /// Gets the name of the property on the 'To' class.
+    /// </summary>
+    /// <value>The property on the 'To' class.</value>
+    public string ToProperty { get; private set; }    
+  }
 }

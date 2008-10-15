@@ -26,35 +26,52 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System;
-using System.Runtime.Serialization;
-
 namespace TranslationTester.Exceptions
 {
-	/// <summary>
-	/// Description of UnmappedPropertyException.
-	/// </summary>
-	[Serializable]
-	public class UnmappedPropertyException:Exception
-	{
-		public UnmappedPropertyException()
-			:base()
-		{
-		}
-		
-		public UnmappedPropertyException(string message)
-			:base(message)
-		{
-		}
-		
-		public UnmappedPropertyException(string message, Exception innerException)
-			:base(message,innerException)
-		{
-		}
-		
-		protected UnmappedPropertyException(SerializationInfo info, StreamingContext context)
-			:base(info,context)
-		{
-		}
-	}
+  using System;
+  using System.Runtime.Serialization;
+  
+  /// <summary>
+  /// Description of UnmappedPropertyException.
+  /// </summary>
+  [Serializable]
+  public class UnmappedPropertyException : Exception
+  {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UnmappedPropertyException" /> class.
+    /// </summary>
+    public UnmappedPropertyException()
+      : base()
+    {
+    }
+    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UnmappedPropertyException" /> class.
+    /// </summary>
+    /// <param name="message">The message for the exception.</param>
+    public UnmappedPropertyException(string message)
+      : base(message)
+    {
+    }
+    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UnmappedPropertyException"/> class.
+    /// </summary>
+    /// <param name="message">The message for the exception.</param>
+    /// <param name="innerException">The inner exception to be wrapped.</param>
+    public UnmappedPropertyException(string message, Exception innerException)
+      : base(message, innerException)
+    {
+    }
+    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UnmappedPropertyException"/> class.
+    /// </summary>
+    /// <param name="info"><see cref="SerializationInfo"/> for serializing the exception.</param>
+    /// <param name="context">The context for the serialization.</param>
+    protected UnmappedPropertyException(SerializationInfo info, StreamingContext context)
+      : base(info, context)
+    {
+    }
+  }
 }
