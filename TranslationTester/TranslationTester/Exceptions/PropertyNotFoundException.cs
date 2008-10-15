@@ -26,16 +26,34 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 using System;
+using System.Runtime.Serialization;
 
 namespace TranslationTester.Exceptions
 {
 	/// <summary>
 	/// Description of PropertyNotFoundException.
 	/// </summary>
+	[Serializable]
 	public class PropertyNotFoundException:Exception
 	{
 		public PropertyNotFoundException()
+			:base()
 		{
+		}
+		
+		public PropertyNotFoundException(string message)
+			:base(message)
+		{
+		}
+		
+		public PropertyNotFoundException(string message, Exception innerException)
+			:base(message,innerException)
+		{
+		}
+		
+		protected PropertyNotFoundException(SerializationInfo info, StreamingContext context)
+			:base(info,context)
+		{			
 		}
 	}
 }
