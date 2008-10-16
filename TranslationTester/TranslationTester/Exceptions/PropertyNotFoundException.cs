@@ -32,7 +32,7 @@ namespace TranslationTester.Exceptions
   using System.Runtime.Serialization;
 
   /// <summary>
-  /// Description of PropertyNotFoundException.
+  /// Thrown when a property was not found on a type.
   /// </summary>
   [Serializable]
   public class PropertyNotFoundException : Exception
@@ -72,6 +72,6 @@ namespace TranslationTester.Exceptions
     protected PropertyNotFoundException(SerializationInfo info, StreamingContext context)
       : base(info, context)
     {
-    }
+    }    
   }
 }

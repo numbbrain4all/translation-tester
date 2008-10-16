@@ -32,7 +32,7 @@ namespace TranslationTester.Exceptions
   using System.Runtime.Serialization;
   
   /// <summary>
-  /// Description of UnmappedPropertyException.
+  /// Thrown when a property was not mapped.
   /// </summary>
   [Serializable]
   public class UnmappedPropertyException : Exception

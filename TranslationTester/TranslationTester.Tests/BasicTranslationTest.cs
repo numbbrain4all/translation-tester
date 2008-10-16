@@ -39,7 +39,8 @@ namespace TranslationTester.Tests
 		SimpleTo to;
 		
 		[SetUp]
-		public void Setup(){
+		public void Setup()
+		{
 			target=new TypeTranslationTester<SimpleFrom,SimpleTo>();
 			from=new SimpleFrom();
 			var translator=new SimpleTranslator();
@@ -50,27 +51,31 @@ namespace TranslationTester.Tests
 		[Description(@"Having an unmapped property should cause the translation tester
 			to throw an exception when running VerifyAllPropertiesMapped")]
 		[ExpectedException(typeof(UnmappedPropertyException))]
-		public void UnmappedPropertyCausesTestToFail(){			
+		public void UnmappedPropertyCausesTestToFail()
+		{
 			target.VerifyAllPropertiesMapped();			
 		}
 		
 		[Test]
 		[Description(@"Having an unmapped property should mean that the AllPropertiesMapped
 			property will be false")]
-		public void AllPropertiesMappedFalseWhenUnmappedProperty(){			
+		public void AllPropertiesMappedFalseWhenUnmappedProperty()
+		{
 			Assert.That(target.AllPropertiesMapped==false);
 		}
 		
 		[Test]
 		[Description(@"If a mapping is added for all properties no exception should be thrown")]
-		public void MappedPropertyDoesNotThrow(){
+		public void MappedPropertyDoesNotThrow()
+		{
 			target.AddMapping("Property1","Property1");
 			target.VerifyAllPropertiesMapped();			
 		}
 		
 		[Test]
 		[Description(@"If a mapping is added for all properties AllPropertiesMapped should be true")]
-		public void AllPropertiesMapped(){
+		public void AllPropertiesMapped()
+		{
 			target.AddMapping("Property1","Property1");
 			Assert.That(target.AllPropertiesMapped);
 		}
@@ -78,14 +83,16 @@ namespace TranslationTester.Tests
 		[Test]
 		[Description(@"If a mapping is added with an invalid from property name an exception should be thrown")]
 		[ExpectedException(typeof(PropertyNotFoundException))]
-		public void AddInvalidMappingFromThrows(){
+		public void AddInvalidMappingFromThrows()
+		{
 			target.AddMapping("invalid","Property1");
 		}
 		
 		[Test]
 		[Description(@"If a mapping is added with an invalid to property name an exception should be thrown")]
 		[ExpectedException(typeof(PropertyNotFoundException))]
-		public void AddInvalidMappingToThrows(){
+		public void AddInvalidMappingToThrows()
+		{
 			target.AddMapping("Property1","invalid");
 		}		
 	}

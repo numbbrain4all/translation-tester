@@ -90,6 +90,20 @@ namespace TranslationTester
     }
     
     /// <summary>
+    /// Excludes a property on the 'From' type from being mapped.
+    /// </summary>
+    /// <param name="fromProperty">The name of the property on the 'From' type.</param>
+    public void ExcludeProperty(string fromProperty)
+    {
+      if (false == this.unmappedProperties.Contains(fromProperty))
+      {
+        throw new PropertyNotFoundException(fromProperty);
+      }
+      
+      this.unmappedProperties.Remove(fromProperty);
+    }
+    
+    /// <summary>
     /// Verifies that all the properties on the 'From' type were mapped or excluded.
     /// </summary>
     public void VerifyAllPropertiesMapped()
