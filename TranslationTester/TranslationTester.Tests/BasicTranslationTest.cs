@@ -27,7 +27,6 @@
 #endregion
 using System;
 using NUnit.Framework;
-using TranslationTester.Exceptions;
 
 namespace TranslationTester.Tests
 {

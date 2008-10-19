@@ -26,7 +26,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace TranslationTester.Exceptions
+namespace TranslationTester
 {
   using System;
   using System.Runtime.Serialization;

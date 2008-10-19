@@ -3,6 +3,7 @@
 
 using System;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 
 #endregion
@@ -23,6 +24,8 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 [assembly: CLSCompliant(true)]
+
+[assembly: NeutralResourcesLanguage("en")]
 
 // The assembly version has following format :
 //
