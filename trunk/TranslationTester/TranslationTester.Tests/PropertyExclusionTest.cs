@@ -28,7 +28,6 @@
 
 using System;
 using NUnit.Framework;
-using TranslationTester.Exceptions;
 
 namespace TranslationTester.Tests
 {
@@ -97,6 +96,28 @@ namespace TranslationTester.Tests
     {
       var propertyName="Invalid";
       var actual = Assert.Throws<PropertyNotFoundException>(()=>target.ExcludeProperty(propertyName));
+      Assert.That(actual.Message,Text.Contains(propertyName));
+    }
+    
+    [Test]
+    [Description(@"Scenario 3: If attempt to exclude a property that
+      is already mapped then a PropertyAlreadyMappedException should be thrown with the property name in it")]
+    public void PropertyAlreadyMappedExceptionContainsPropertyName()
+    {
+      var propertyName="Property1";//valid
+      target.AddMapping(propertyName,"Property1");
+      var actual = Assert.Throws<PropertyAlreadyMappedException>(()=>target.ExcludeProperty(propertyName));
+      Assert.That(actual.Message,Text.Contains(propertyName));
+    }
+    
+    [Test]
+    [Description(@"If attempt to exclude a property that is already excluded
+      then a PropertyAlreadyMappedException should be thrown with the property name in it")]
+    public void PropertyAlreadyExcludedExceptionContainsPropertyName()
+    {
+      var propertyName="Property1";//valid
+      target.ExcludeProperty(propertyName);
+      var actual = Assert.Throws<PropertyAlreadyMappedException>(()=>target.ExcludeProperty(propertyName));
       Assert.That(actual.Message,Text.Contains(propertyName));
     }
     
