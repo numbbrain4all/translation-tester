@@ -61,15 +61,7 @@ namespace TranslationTester.Tests
 		public void AllPropertiesMappedFalseWhenUnmappedProperty()
 		{
 			Assert.That(target.AllPropertiesMapped==false);
-		}
-		
-		[Test]
-		[Description(@"If a mapping is added for all properties no exception should be thrown")]
-		public void MappedPropertyDoesNotThrow()
-		{
-			target.AddMapping("Property1","Property1");
-			target.VerifyAllPropertiesMapped();			
-		}
+		}	
 		
 		[Test]
 		[Description(@"If a mapping is added for all properties AllPropertiesMapped should be true")]
@@ -77,22 +69,6 @@ namespace TranslationTester.Tests
 		{
 			target.AddMapping("Property1","Property1");
 			Assert.That(target.AllPropertiesMapped);
-		}
-		
-		[Test]
-		[Description(@"If a mapping is added with an invalid from property name an exception should be thrown")]
-		[ExpectedException(typeof(PropertyNotFoundException))]
-		public void AddInvalidMappingFromThrows()
-		{
-			target.AddMapping("invalid","Property1");
-		}
-		
-		[Test]
-		[Description(@"If a mapping is added with an invalid to property name an exception should be thrown")]
-		[ExpectedException(typeof(PropertyNotFoundException))]
-		public void AddInvalidMappingToThrows()
-		{
-			target.AddMapping("Property1","invalid");
 		}		
 	}
 }

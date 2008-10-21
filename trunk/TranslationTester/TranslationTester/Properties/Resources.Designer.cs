@@ -70,7 +70,7 @@ namespace TranslationTester.Properties
     }
     
     /// <summary>
-    ///   Looks up a localized string similar to Unable to exclude property &apos;{0}&apos; as it is already mapped or excluded.
+    ///   Looks up a localized string similar to Unable to exclude property &apos;{0}.{1}&apos; as it is already mapped or excluded.
     /// </summary>
     internal static string ErrorExclusionPropertyAlreadyMapped
     {
@@ -81,13 +81,46 @@ namespace TranslationTester.Properties
     }
     
     /// <summary>
-    ///   Looks up a localized string similar to Unable to exclude property &apos;{0}&apos; as it was not found on the class.
+    ///   Looks up a localized string similar to Unable to exclude property &apos;{0}.{1}&apos; as it was not found on the class.
     /// </summary>
     internal static string ErrorExclusionPropertyNotFound
     {
       get
       {
         return ResourceManager.GetString("ErrorExclusionPropertyNotFound", resourceCulture);
+      }
+    }
+    
+    /// <summary>
+    ///   Looks up a localized string similar to Unable to add mapping &apos;{0}&apos;, an identical mapping already exists.
+    /// </summary>
+    internal static string ErrorSimpleMappingMappingAlreadyExists
+    {
+      get
+      {
+        return ResourceManager.GetString("ErrorSimpleMappingMappingAlreadyExists", resourceCulture);
+      }
+    }
+    
+    /// <summary>
+    ///   Looks up a localized string similar to Unable to add mapping &apos;{0}&apos; as property &apos;{1}.{2}&apos; was not found .
+    /// </summary>
+    internal static string ErrorSimpleMappingPropertyNotFound
+    {
+      get
+      {
+        return ResourceManager.GetString("ErrorSimpleMappingPropertyNotFound", resourceCulture);
+      }
+    }
+    
+    /// <summary>
+    ///   Looks up a localized string similar to {0}.{1} to {2}.{3}.
+    /// </summary>
+    internal static string SimpleMapping
+    {
+      get
+      {
+        return ResourceManager.GetString("SimpleMapping", resourceCulture);
       }
     }
   }
