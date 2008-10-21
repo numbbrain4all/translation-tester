@@ -118,9 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrorExclusionPropertyNotFound" xml:space="preserve">
-    <value>Unable to exclude property '{0}' as it was not found on the class</value>
+    <value>Unable to exclude property '{0}.{1}' as it was not found on the class</value>
   </data>
   <data name="ErrorExclusionPropertyAlreadyMapped" xml:space="preserve">
-    <value>Unable to exclude property '{0}' as it is already mapped or excluded</value>
+    <value>Unable to exclude property '{0}.{1}' as it is already mapped or excluded</value>
+  </data>
+  <data name="ErrorSimpleMappingPropertyNotFound" xml:space="preserve">
+    <value>Unable to add mapping '{0}' as property '{1}.{2}' was not found </value>
+  </data>
+  <data name="SimpleMapping" xml:space="preserve">
+    <value>{0}.{1} to {2}.{3}</value>
+  </data>
+  <data name="ErrorSimpleMappingMappingAlreadyExists" xml:space="preserve">
+    <value>Unable to add mapping '{0}', an identical mapping already exists</value>
   </data>
 </root>
