@@ -55,14 +55,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\MappingFailedException.cs" />
     <Compile Include="Exceptions\PropertyAlreadyMappedException.cs" />
     <Compile Include="Exceptions\PropertyNotFoundException.cs" />
     <Compile Include="Exceptions\UnmappedPropertyException.cs" />
+    <Compile Include="Mappings\AbstractMapping.cs" />
+    <Compile Include="Mappings\SimpleMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SimpleMapping.cs" />
     <Compile Include="TypeTranslationTester.cs" />
     <None Include="TranslationTester.snk" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -71,5 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions" />
+    <Folder Include="Mappings" />
   </ItemGroup>
 </Project>

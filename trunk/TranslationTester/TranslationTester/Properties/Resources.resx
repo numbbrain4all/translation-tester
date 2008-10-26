@@ -132,4 +132,16 @@
   <data name="ErrorSimpleMappingMappingAlreadyExists" xml:space="preserve">
     <value>Unable to add mapping '{0}', an identical mapping already exists</value>
   </data>
+  <data name="ErrorFromPropertyHasDefaultValue" xml:space="preserve">
+    <value>Unable to verify mappings as the following mapped properties had default values:</value>
+  </data>
+  <data name="ErrorSimpleMappingFailed" xml:space="preserve">
+    <value>The following mappings were unfulfilled by the translation method:</value>
+  </data>
+  <data name="ErrorDefaultValueForProperty" xml:space="preserve">
+    <value>'{0}.{1}' had the default value of '{2}'</value>
+  </data>
+  <data name="ErrorSimpleMappingFailedSub" xml:space="preserve">
+    <value>{0}: fromValue={1}, toValue={2}</value>
+  </data>
 </root>

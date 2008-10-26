@@ -70,6 +70,17 @@ namespace TranslationTester.Properties
     }
     
     /// <summary>
+    ///   Looks up a localized string similar to &apos;{0}.{1}&apos; had the default value of &apos;{2}&apos;.
+    /// </summary>
+    internal static string ErrorDefaultValueForProperty
+    {
+      get
+      {
+        return ResourceManager.GetString("ErrorDefaultValueForProperty", resourceCulture);
+      }
+    }
+    
+    /// <summary>
     ///   Looks up a localized string similar to Unable to exclude property &apos;{0}.{1}&apos; as it is already mapped or excluded.
     /// </summary>
     internal static string ErrorExclusionPropertyAlreadyMapped
@@ -88,6 +99,39 @@ namespace TranslationTester.Properties
       get
       {
         return ResourceManager.GetString("ErrorExclusionPropertyNotFound", resourceCulture);
+      }
+    }
+    
+    /// <summary>
+    ///   Looks up a localized string similar to Unable to verify mappings as the following mapped properties had default values:.
+    /// </summary>
+    internal static string ErrorFromPropertyHasDefaultValue
+    {
+      get
+      {
+        return ResourceManager.GetString("ErrorFromPropertyHasDefaultValue", resourceCulture);
+      }
+    }
+    
+    /// <summary>
+    ///   Looks up a localized string similar to The following mappings were unfulfilled by the translation method:.
+    /// </summary>
+    internal static string ErrorSimpleMappingFailed
+    {
+      get
+      {
+        return ResourceManager.GetString("ErrorSimpleMappingFailed", resourceCulture);
+      }
+    }
+    
+    /// <summary>
+    ///   Looks up a localized string similar to {0}: fromValue={1}, toValue={2}.
+    /// </summary>
+    internal static string ErrorSimpleMappingFailedSub
+    {
+      get
+      {
+        return ResourceManager.GetString("ErrorSimpleMappingFailedSub", resourceCulture);
       }
     }
     
