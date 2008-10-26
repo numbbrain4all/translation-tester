@@ -34,7 +34,7 @@ namespace TranslationTester
   /// <summary>
   /// Represents a one-to-one mapping between properties on two types.
   /// </summary>
-  public class SimpleMapping
+  public class SimpleMapping : AbstractMapping
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="SimpleMapping" /> class.
@@ -48,24 +48,11 @@ namespace TranslationTester
       string fromProperty,
       string toName,
       string toProperty)
+      : base(fromName, fromProperty)
     {
-      this.FromName = fromName;
-      this.FromProperty = fromProperty;
       this.ToName = toName;
       this.ToProperty = toProperty;
     }
-    
-    /// <summary>
-    /// Gets the name of the 'From' type.
-    /// </summary>
-    /// <value>The name of the 'From' type.</value>
-    public string FromName { get; private set; }
-    
-    /// <summary>
-    /// Gets the name of the property on the 'From' type.
-    /// </summary>
-    /// <value>The property on the 'From' type.</value>
-    public string FromProperty { get; private set; }
     
     /// <summary>
     /// Gets the name of the 'To' type.
@@ -78,7 +65,7 @@ namespace TranslationTester
     /// </summary>
     /// <value>The property on the 'To' class.</value>
     public string ToProperty { get; private set; }
-        
+    
     /// <summary>
     /// Returns a string representation of the Simple Mapping.
     /// </summary>
@@ -134,6 +121,6 @@ namespace TranslationTester
         && this.ToName == other.ToName
         && this.FromProperty == other.FromProperty
         && this.ToProperty == other.ToProperty;
-    }    
+    }
   }
 }

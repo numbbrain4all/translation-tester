@@ -32,11 +32,11 @@ namespace TranslationTester.Tests
 	/// <summary>
 	/// Description of SimpleTranslator.
 	/// </summary>
-	public class SimpleTranslator
+	public class SinglePropertyMappedTranslator
 	{		
 		public SimpleTo translate(SimpleFrom from){
 			var to=new SimpleTo{
-				//Property1=from.Property1
+				Property1=from.Property1
 			};
 			return to;
 			

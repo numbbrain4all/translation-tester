@@ -68,7 +68,7 @@ namespace TranslationTester.Tests
     public void Setup(){
       target=new TypeTranslationTester<SimpleFrom,SimpleTo>();
       from=new SimpleFrom();
-      var translator=new SimpleTranslator();
+      var translator=new SinglePropertyMappedTranslator();
       to=translator.translate(from);
     }
     

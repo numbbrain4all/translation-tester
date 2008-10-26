@@ -42,10 +42,12 @@
     <Compile Include="BasicTranslationTest.cs" />
     <Compile Include="ConstructorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SupportClasses\MultipleFrom.cs" />
     <Compile Include="SupportClasses\SimpleFrom.cs" />
     <Compile Include="SupportClasses\Simpleto.cs" />
     <Compile Include="PropertyExclusionTest.cs" />
-    <Compile Include="Translators\SimpleTranslator.cs" />
+    <Compile Include="Translators\SinglePropertyMappedTranslator.cs" />
+    <Compile Include="VerifySimpleMappingsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TranslationTester\TranslationTester.csproj">
