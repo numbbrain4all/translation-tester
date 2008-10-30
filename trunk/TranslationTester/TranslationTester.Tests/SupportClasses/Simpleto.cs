@@ -37,5 +37,6 @@ namespace TranslationTester.Tests
 		public int Property1{get;set;}
 		public int Property2{get;set;}
 		public string StringProperty{get;set;}
+		public SubTypeTo RefProperty{get;set;}
 	}
 }

@@ -179,12 +179,30 @@ namespace TranslationTester
     /// <summary>
     /// Verifies that all mapings that have been added are fulfilled.
     /// </summary>
+    /// <remarks>Use this overload if the translation method has been specified.</remarks>
     /// <param name="from">The instance of the from type to use to exercise the translator.</param>
     public void VerifyAllMappings(TFrom from)
     {
-      this.ValidateFromInstance(from);
-      var failures = new List<AbstractMapping>(this.simpleMappings.Count);
+      if (this.TranslationMethod == null)
+      {
+        throw new InvalidOperationException(Properties.Resources.ErrorTranslationMethodNotSpecified);
+      }
+      
       TTo to = this.TranslationMethod(from);
+      this.VerifyAllMappings(from, to);
+    }
+    
+    /// <summary>
+    /// Verifies that all mapings that have been added are fulfilled.
+    /// </summary>
+    /// <remarks>Use this overload if the translation has been done elsewhere.</remarks>
+    /// <param name="from">The instance of the from type to use to exercise the translator.</param>
+    /// <param name="to">The instance of the to type that was returned by the translation method.</param>
+    public void VerifyAllMappings(TFrom from, TTo to)
+    {
+      this.VerifyFromInstance(from);
+      var failures = new List<AbstractMapping>(this.simpleMappings.Count);
+      
       foreach (var mapping in this.simpleMappings)
       {
         var fromProperty = this.fromType.GetProperty(mapping.FromProperty);
@@ -215,21 +233,14 @@ namespace TranslationTester
         
         throw new MappingFailedException(failures, failureMessage.ToString());
       }
-    }   
+    }      
     
-    private static object GetDefaultValueForType(Type type)
-    {
-      if (type.IsValueType)
-      {
-        return Activator.CreateInstance(type);
-      }
-      else
-      {
-        return null;
-      }
-    }
-    
-    private void ValidateFromInstance(TFrom from)
+    /// <summary>
+    /// Verifies an instance of the 'from' type is sufficiently specified
+    /// to exercise the translation method and verify all the mappings.
+    /// </summary>
+    /// <param name="from">The from instance to verify.</param>
+    public void VerifyFromInstance(TFrom from)
     {
       var failureMessage = new StringBuilder();
       foreach (var mappedProperty in this.mappedProperties)
@@ -255,6 +266,18 @@ namespace TranslationTester
         throw new ArgumentException(
           Properties.Resources.ErrorFromPropertyHasDefaultValue + failureMessage.ToString(),
           "from");
+      }
+    }
+    
+    private static object GetDefaultValueForType(Type type)
+    {
+      if (type.IsValueType)
+      {
+        return Activator.CreateInstance(type);
+      }
+      else
+      {
+        return null;
       }
     }
     

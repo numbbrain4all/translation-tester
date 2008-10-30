@@ -46,7 +46,10 @@
     <Compile Include="SupportClasses\SimpleFrom.cs" />
     <Compile Include="SupportClasses\Simpleto.cs" />
     <Compile Include="PropertyExclusionTest.cs" />
+    <Compile Include="SupportClasses\SubTypeFrom.cs" />
+    <Compile Include="SupportClasses\SubTypeTo.cs" />
     <Compile Include="Translators\SinglePropertyMappedTranslator.cs" />
+    <Compile Include="VerifyFromInstanceTest.cs" />
     <Compile Include="VerifySimpleMappingsTest.cs" />
   </ItemGroup>
   <ItemGroup>
