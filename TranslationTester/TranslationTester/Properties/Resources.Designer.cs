@@ -158,6 +158,17 @@ namespace TranslationTester.Properties
     }
     
     /// <summary>
+    ///   Looks up a localized string similar to No translation method specified, either specify the translationMethod to be called or do the translation elsewhere and use the overload of VerifyAllMappings accepting an instance of the to type..
+    /// </summary>
+    internal static string ErrorTranslationMethodNotSpecified
+    {
+      get
+      {
+        return ResourceManager.GetString("ErrorTranslationMethodNotSpecified", resourceCulture);
+      }
+    }
+    
+    /// <summary>
     ///   Looks up a localized string similar to {0}.{1} to {2}.{3}.
     /// </summary>
     internal static string SimpleMapping

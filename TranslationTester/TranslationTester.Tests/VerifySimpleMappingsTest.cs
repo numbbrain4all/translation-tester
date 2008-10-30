@@ -79,7 +79,6 @@ namespace TranslationTester.Tests
   {
     TypeTranslationTester<MultipleFrom,SimpleTo> target;
     MultipleFrom from;
-    SimpleTo to;
     
     [SetUp]
     public void Setup(){
@@ -87,6 +86,27 @@ namespace TranslationTester.Tests
       from=new MultipleFrom{
         Property1=1,
       };
+    }
+    
+    [Test]
+    [Description(@"If no translation method is specified for the first overload
+      then an exception should be thrown")]
+    public void NoTranslationMethodProvidedThrows()
+    {
+      target.AddMapping("Property1","Property1");
+      var actual= Assert.Throws<InvalidOperationException>(()=>target.VerifyAllMappings(from));
+    }
+    
+    [Test]
+    [Description(@"If no translation method is specified but the 2nd overload is used
+      then no exception should be thrown")]
+    public void NoTranslationMethodUseOverloadSucceeds()
+    {
+      target.AddMapping("Property1","Property1");
+      var to =new SimpleTo{
+        Property1=from.Property1
+      };
+      target.VerifyAllMappings(from,to);
     }
     
     [Test]
@@ -131,37 +151,7 @@ namespace TranslationTester.Tests
       };
       var actual= Assert.Throws<MappingFailedException>(()=>target.VerifyAllMappings(from));
       Assert.That(actual.Message,Text.Contains(mapping.ToString()));
-    }
-    
-    [Test]
-    [Description(@"If the from instance has default value for the mapped property
-      an exception should be thrown")]
-    public void DefaultPropertyValueOnFromCausesException()
-    {
-      target.AddMapping("Property1","Property1");
-      from=new MultipleFrom();
-      target.TranslationMethod=(val)=>
-      {
-        return new SimpleTo();
-      };
-      Assert.Throws<ArgumentException>(()=> target.VerifyAllMappings(from));
-    }
-    
-    [Test]
-    [Description(@"When a property has a default value the exception should give
-      the name of the property")]
-    public void DefaultValueExceptionContainsPropertyName()
-    {
-      string fromPropertyName="Property1";
-      target.AddMapping(fromPropertyName,"Property1");
-      from=new MultipleFrom();
-      target.TranslationMethod=(val)=>
-      {
-        return new SimpleTo();
-      };
-      var thrown= Assert.Throws<ArgumentException>(()=> target.VerifyAllMappings(from));
-      Assert.That(thrown.Message,Text.Contains(fromPropertyName));
-    }
+    }  
     
     [Test]
     [Description(@"Scenario 3: Two simple mappings are specified and fullfilled")]

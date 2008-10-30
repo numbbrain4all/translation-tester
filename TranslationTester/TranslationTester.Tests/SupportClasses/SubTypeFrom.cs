@@ -30,12 +30,10 @@ using System;
 namespace TranslationTester.Tests
 {
   /// <summary>
-	/// Class to translate from, used for tests
-	/// </summary>
-	public class MultipleFrom
-	{
-		public int Property1{get;set;}
-		public string StringProp{get;set;}
-		public SubTypeFrom RefProp{get;set;}
-	}
+  /// A class used as a reference type property on the from/to classes
+  /// </summary>
+  public class SubTypeFrom
+  {
+    public decimal myProp{get;set;}
+  }
 }
