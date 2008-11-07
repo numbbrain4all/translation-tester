@@ -54,11 +54,11 @@ namespace TranslationTester
     /// </summary>
     public TypeTranslationTester()
     {
-      this.simpleMappings = new List<SimpleMapping>();
-      this.InitializeFromProperties();
-      this.InitializeToProperties();
-      this.InitializeUnmappedProperties();
-      this.mappedProperties = new List<string>(this.allFromProperties.Count);
+      simpleMappings = new List<SimpleMapping>();
+      InitializeFromProperties();
+      InitializeToProperties();
+      InitializeUnmappedProperties();
+      mappedProperties = new List<string>(allFromProperties.Count);
     }
     
     /// <summary>
@@ -81,7 +81,7 @@ namespace TranslationTester
     {
       get
       {
-        return this.unmappedProperties.Count == 0;
+        return unmappedProperties.Count == 0;
       }
     }
     
@@ -93,31 +93,31 @@ namespace TranslationTester
     /// <returns>The mapping that was added.</returns>
     public AbstractMapping AddMapping(string fromProperty, string toProperty)
     {
-      var mapping = new SimpleMapping(this.fromType.Name, fromProperty, this.toType.Name, toProperty);
+      var mapping = new SimpleMapping(fromType.Name, fromProperty, toType.Name, toProperty);
       
-      if (false == this.allFromProperties.Contains(fromProperty))
+      if (false == allFromProperties.Contains(fromProperty))
       {
         throw new PropertyNotFoundException(
           string.Format(
             CultureInfo.CurrentCulture,
             Properties.Resources.ErrorSimpleMappingPropertyNotFound,
             mapping,
-            this.fromType.Name,
+            fromType.Name,
             fromProperty));
       }
       
-      if (false == this.allToProperties.Contains(toProperty))
+      if (false == allToProperties.Contains(toProperty))
       {
         throw new PropertyNotFoundException(
           string.Format(
             CultureInfo.CurrentCulture,
             Properties.Resources.ErrorSimpleMappingPropertyNotFound,
             mapping,
-            this.toType.Name,
+            toType.Name,
             toProperty));
       }
       
-      if (this.simpleMappings.Contains(mapping))
+      if (simpleMappings.Contains(mapping))
       {
         throw new PropertyAlreadyMappedException(
           string.Format(
@@ -126,11 +126,11 @@ namespace TranslationTester
             mapping));
       }
       
-      this.unmappedProperties.Remove(fromProperty);
-      this.simpleMappings.Add(mapping);
-      if (false == this.mappedProperties.Contains(fromProperty))
+      unmappedProperties.Remove(fromProperty);
+      simpleMappings.Add(mapping);
+      if (false == mappedProperties.Contains(fromProperty))
       {
-        this.mappedProperties.Add(fromProperty);
+        mappedProperties.Add(fromProperty);
       }
       
       return mapping;
@@ -142,27 +142,27 @@ namespace TranslationTester
     /// <param name="fromProperty">The name of the property on the 'From' type.</param>
     public void ExcludeProperty(string fromProperty)
     {
-      if (false == this.allFromProperties.Contains(fromProperty))
+      if (false == allFromProperties.Contains(fromProperty))
       {
         throw new PropertyNotFoundException(
           string.Format(
             CultureInfo.CurrentCulture,
             Properties.Resources.ErrorExclusionPropertyNotFound,
-            this.fromType.Name,
+            fromType.Name,
             fromProperty));
       }
       
-      if (false == this.unmappedProperties.Contains(fromProperty))
+      if (false == unmappedProperties.Contains(fromProperty))
       {
         throw new PropertyAlreadyMappedException(
           string.Format(
             CultureInfo.CurrentCulture,
             Properties.Resources.ErrorExclusionPropertyAlreadyMapped,
-            this.fromType.Name,
+            fromType.Name,
             fromProperty));
       }
       
-      this.unmappedProperties.Remove(fromProperty);
+      unmappedProperties.Remove(fromProperty);
     }
     
     /// <summary>
@@ -170,7 +170,7 @@ namespace TranslationTester
     /// </summary>
     public void VerifyAllPropertiesMapped()
     {
-      if (this.unmappedProperties.Count > 0)
+      if (unmappedProperties.Count > 0)
       {
         throw new UnmappedPropertyException();
       }
@@ -183,13 +183,13 @@ namespace TranslationTester
     /// <param name="from">The instance of the from type to use to exercise the translator.</param>
     public void VerifyAllMappings(TFrom from)
     {
-      if (this.TranslationMethod == null)
+      if (TranslationMethod == null)
       {
         throw new InvalidOperationException(Properties.Resources.ErrorTranslationMethodNotSpecified);
       }
       
-      TTo to = this.TranslationMethod(from);
-      this.VerifyAllMappings(from, to);
+      TTo to = TranslationMethod(from);
+      VerifyAllMappings(from, to);
     }
     
     /// <summary>
@@ -200,14 +200,14 @@ namespace TranslationTester
     /// <param name="to">The instance of the to type that was returned by the translation method.</param>
     public void VerifyAllMappings(TFrom from, TTo to)
     {
-      this.VerifyFromInstance(from);
-      var failures = new List<AbstractMapping>(this.simpleMappings.Count);
+      VerifyFromInstance(from);
+      var failures = new List<AbstractMapping>(simpleMappings.Count);
       
-      foreach (var mapping in this.simpleMappings)
+      foreach (var mapping in simpleMappings)
       {
-        var fromProperty = this.fromType.GetProperty(mapping.FromProperty);
+        var fromProperty = fromType.GetProperty(mapping.FromProperty);
         object fromValue = fromProperty.GetValue(from, null);
-        object toValue = this.toType.GetProperty(mapping.ToProperty).GetValue(to, null);
+        object toValue = toType.GetProperty(mapping.ToProperty).GetValue(to, null);
         if (false == fromValue.Equals(toValue))
         {
           failures.Add(mapping);
@@ -220,8 +220,8 @@ namespace TranslationTester
         failureMessage.Append(Properties.Resources.ErrorSimpleMappingFailed);
         foreach (SimpleMapping mapping in failures)
         {
-          object fromValue = this.fromType.GetProperty(mapping.FromProperty).GetValue(from, null);
-          object toValue = this.toType.GetProperty(mapping.ToProperty).GetValue(to, null);
+          object fromValue = fromType.GetProperty(mapping.FromProperty).GetValue(from, null);
+          object toValue = toType.GetProperty(mapping.ToProperty).GetValue(to, null);
           failureMessage.AppendLine();
           failureMessage.AppendFormat(
             CultureInfo.CurrentCulture,
@@ -243,9 +243,9 @@ namespace TranslationTester
     public void VerifyFromInstance(TFrom from)
     {
       var failureMessage = new StringBuilder();
-      foreach (var mappedProperty in this.mappedProperties)
+      foreach (var mappedProperty in mappedProperties)
       {
-        var fromProperty = this.fromType.GetProperty(mappedProperty);
+        var fromProperty = fromType.GetProperty(mappedProperty);
         object fromValue = fromProperty.GetValue(from, null);
 
         object defaultVal = GetDefaultValueForType(fromProperty.PropertyType);
@@ -255,7 +255,7 @@ namespace TranslationTester
           failureMessage.AppendFormat(
             CultureInfo.CurrentCulture,
             Properties.Resources.ErrorDefaultValueForProperty,
-            this.fromType.Name,
+            fromType.Name,
             mappedProperty,
             defaultVal == null ? "null" : defaultVal);
         }
@@ -283,28 +283,28 @@ namespace TranslationTester
     
     private void InitializeFromProperties()
     {
-      this.allFromProperties = new List<string>();
-      this.fromType = typeof(TFrom);
-      var allFromProps = this.fromType.GetProperties();
+      allFromProperties = new List<string>();
+      fromType = typeof(TFrom);
+      var allFromProps = fromType.GetProperties();
       foreach (var prop in allFromProps)
       {
-        this.allFromProperties.Add(prop.Name);
+        allFromProperties.Add(prop.Name);
       }
     }
     
     private void InitializeUnmappedProperties()
     {
-      this.unmappedProperties = new List<string>(this.allFromProperties);
+      unmappedProperties = new List<string>(allFromProperties);
     }
     
     private void InitializeToProperties()
     {
-      this.allToProperties = new List<string>();
-      this.toType = typeof(TTo);
-      var allToProps = this.toType.GetProperties();
+      allToProperties = new List<string>();
+      toType = typeof(TTo);
+      var allToProps = toType.GetProperties();
       foreach (var prop in allToProps)
       {
-        this.allToProperties.Add(prop.Name);
+        allToProperties.Add(prop.Name);
       }
     }
   }

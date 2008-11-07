@@ -50,8 +50,8 @@ namespace TranslationTester
       string toProperty)
       : base(fromName, fromProperty)
     {
-      this.ToName = toName;
-      this.ToProperty = toProperty;
+      ToName = toName;
+      ToProperty = toProperty;
     }
     
     /// <summary>
@@ -75,10 +75,10 @@ namespace TranslationTester
       return string.Format(
         CultureInfo.CurrentCulture,
         Properties.Resources.SimpleMapping,
-        this.FromName,
-        this.FromProperty,
-        this.ToName,
-        this.ToProperty);
+        FromName,
+        FromProperty,
+        ToName,
+        ToProperty);
     }
     
     /// <summary>
@@ -87,10 +87,10 @@ namespace TranslationTester
     /// <returns>An int to use as a hash code for this mapping.</returns>
     public override int GetHashCode()
     {
-      return this.FromName.GetHashCode()
-        ^ this.FromProperty.GetHashCode()
-        ^ this.ToName.GetHashCode()
-        ^ this.ToProperty.GetHashCode();
+      return FromName.GetHashCode()
+        ^ FromProperty.GetHashCode()
+        ^ ToName.GetHashCode()
+        ^ ToProperty.GetHashCode();
     }
     
     /// <summary>
@@ -107,7 +107,7 @@ namespace TranslationTester
         return false;
       }
       
-      return this.Equals(otherMapping);
+      return Equals(otherMapping);
     }
     
     /// <summary>
@@ -117,10 +117,10 @@ namespace TranslationTester
     /// <returns>True if all the properties match, false otherwise.</returns>
     public bool Equals(SimpleMapping other)
     {
-      return this.FromName == other.FromName
-        && this.ToName == other.ToName
-        && this.FromProperty == other.FromProperty
-        && this.ToProperty == other.ToProperty;
+      return FromName == other.FromName
+        && ToName == other.ToName
+        && FromProperty == other.FromProperty
+        && ToProperty == other.ToProperty;
     }
   }
 }

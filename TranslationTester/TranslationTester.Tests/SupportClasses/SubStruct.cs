@@ -30,13 +30,10 @@ using System;
 namespace TranslationTester.Tests
 {
   /// <summary>
-	/// Class to translate from, used for tests
-	/// </summary>
-	public class MultipleFrom
-	{
-		public int Property1{get;set;}
-		public string StringProp{get;set;}
-		public SubTypeFrom RefProp{get;set;}
-		public SubStruct StructProp{get;set;}
-	}
+  /// A test support class.
+  /// </summary>
+  public struct SubStruct
+  {
+    public int member;  
+  }
 }

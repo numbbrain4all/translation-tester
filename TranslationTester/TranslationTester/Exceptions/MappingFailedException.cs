@@ -65,7 +65,7 @@ namespace TranslationTester
     public MappingFailedException(ICollection<AbstractMapping> failedMappings, string message)
       : base(message)
     {
-      this.FailedMappings = failedMappings;
+      FailedMappings = failedMappings;
     }
     
     /// <summary>
@@ -106,7 +106,7 @@ namespace TranslationTester
     [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
     public override void GetObjectData(SerializationInfo info, StreamingContext context)
     {
-      info.AddValue("FailedMappings", this.FailedMappings);
+      info.AddValue("FailedMappings", FailedMappings);
       base.GetObjectData(info, context);
     }    
   }

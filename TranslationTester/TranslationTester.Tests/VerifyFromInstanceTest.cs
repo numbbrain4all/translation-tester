@@ -139,6 +139,26 @@ namespace TranslationTester.Tests
     }
     
     [Test]
+    [Description(@"Scenario 6: unassigned struct types should throw")]
+    public void StructTypeNotSetThrows()
+    {
+      target.AddMapping("StructProp","StructProperty");
+      
+      var actual= Assert.Throws<ArgumentException>(()=>target.VerifyFromInstance(from));
+    }
+    
+    [Test]
+    [Description(@"Scenario 6: assigned struct types should not throw")]
+    public void StructTypeSetDoesntThrow()
+    {
+      target.AddMapping("StructProp","StructProperty");
+      
+      from.StructProp=new SubStruct{member=1};
+      
+      target.VerifyFromInstance(from);
+    }
+    
+    [Test]
     [Description(@"Scenario 4: multiple unset properties should be reported together")]
     public void MultipleUnsetPropertiesReported()
     {
@@ -150,6 +170,22 @@ namespace TranslationTester.Tests
       var actual= Assert.Throws<ArgumentException>(()=>target.VerifyFromInstance(from));
       Assert.That(actual.Message,Text.Contains(fromProp1));
       Assert.That(actual.Message,Text.Contains(fromProp2));
+    }
+    
+    [Test]
+    [Description(@"Scenario 5: Calling veridy all mappings should also verify the from instance")]
+    public void VerifyAllMappingsVerifiesFromInstance()
+    {
+      var fromProp1="StringProp";
+      target.TranslationMethod=(val)=>
+      {
+        return new SimpleTo{
+          StringProperty=val.StringProp
+        };
+      };
+      target.AddMapping(fromProp1,"StringProperty");
+      
+      var actual= Assert.Throws<ArgumentException>(()=>target.VerifyAllMappings(from));
     }
   }
 }

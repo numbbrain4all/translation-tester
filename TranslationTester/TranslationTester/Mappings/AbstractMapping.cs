@@ -44,8 +44,8 @@ namespace TranslationTester
       string fromName,
       string fromProperty)
     {
-      this.FromName = fromName;
-      this.FromProperty = fromProperty;
+      FromName = fromName;
+      FromProperty = fromProperty;
     }
     
     /// <summary>
