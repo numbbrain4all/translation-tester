@@ -27,16 +27,14 @@
 #endregion
 using System;
 
-namespace TranslationTester.Tests
+namespace TranslationTester.Tests.SupportClasses
 {
   /// <summary>
-	/// Class to translate from, used for tests
-	/// </summary>
-	public class MultipleFrom
-	{
-		public int Property1{get;set;}
-		public string StringProp{get;set;}
-		public SubTypeFrom RefProp{get;set;}
-		public SubStruct StructProp{get;set;}
-	}
+  /// Description of SubStructTo.
+  /// </summary>
+  public struct SubStructTo 
+  {
+    public int memberTo;
+
+  }
 }
