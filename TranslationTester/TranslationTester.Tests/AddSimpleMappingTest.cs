@@ -112,10 +112,10 @@ namespace TranslationTester.Tests
     [Test]
     [Description(@"Scenario 3: If another mapping is added from the same property the add should
       suceed")]
-    public void AddSecondFromMappingSuceeds()
+    public void AddSecondFromMappingSucceeds()
     {
       target.AddMapping("Property1","Property1");
-      target.AddMapping("Property1","Property2");
+      target.AddMapping("Property1","IntProperty2");
     }
     
     [Test]
@@ -124,6 +124,41 @@ namespace TranslationTester.Tests
     {
       target.AddMapping("Property1","Property1");
       var actual = Assert.Throws<PropertyAlreadyMappedException>(()=>target.AddMapping("Property1","Property1"));
+    }
+    
+    [Test]
+    [Description(@"If a mapping is added from a type that can be implicitly
+      converted to the to type (e.g. int to long)
+      then the mapping should fail")]
+    public void AddMappingWithDifferentTypesImplicitConversionThrows()
+    {
+      var actual = Assert.Throws<ArgumentException>(
+        ()=>  target.AddMapping("Property1","Property2")//int to decimal
+       );     
+    }
+    
+    [Test]
+    [Description(@"If a mapping is added from a type that can be explicitly
+      converted to the to type (e.g. int to short)
+      then the mapping should fail")]
+    public void AddMappingWithDifferentTypesExplicitConversionThrows()
+    {
+      var actual = Assert.Throws<ArgumentException>(
+        ()=>   target.AddMapping("Property1","ShortProp")//int to short
+       );  
+    }
+    
+    [Test]
+    [Description(@"If a mapping is added from a type that can't be
+      converted to the to type (e.g. int to DateTime)
+      then the mapping should be fail")]
+    public void AddMappingWithDifferentTypesNoConversionFails()
+    {
+      // int from=1;
+      // DateTime to=(DateTime)from; //no such cast available
+      var actual = Assert.Throws<ArgumentException>(
+        ()=> target.AddMapping("Property1","DateTimeProp")//int to DateTime
+       );
     }
   }
 }

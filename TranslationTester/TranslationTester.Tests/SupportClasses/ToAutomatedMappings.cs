@@ -30,17 +30,12 @@ using System;
 namespace TranslationTester.Tests
 {
   /// <summary>
-  /// Description of Simpleto.
+  /// Description of ToAutomatedMappings.
   /// </summary>
-  public class SimpleTo
+  public class ToAutomatedMappings
   {
     public int Property1{get;set;}
-    public int IntProperty2{get;set;}
     public decimal Property2{get;set;}
-    public short ShortProp{get;set;}
-    public DateTime DateTimeProp{get;set;}
-    public string StringProperty{get;set;}
-    public SubTypeTo RefProperty{get;set;}
-    public SubStruct StructProperty{get;set;}
+    public string StringProp{get;set;}
   }
 }

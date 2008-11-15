@@ -85,6 +85,8 @@ namespace TranslationTester.Tests
       target=new TypeTranslationTester<MultipleFrom,SimpleTo>();
       from=new MultipleFrom{
         Property1=1,
+        Property2=2,
+        StringProp="string"
       };
     }
     

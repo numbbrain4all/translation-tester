@@ -30,7 +30,11 @@ namespace TranslationTester
 {
   using System;
   using System.Collections.Generic;
+  using System.Collections.ObjectModel;
+  using System.ComponentModel;
   using System.Globalization;
+  using System.Linq;
+  using System.Reflection;
   using System.Text;
 
   /// <summary>
@@ -86,12 +90,38 @@ namespace TranslationTester
     }
     
     /// <summary>
+    /// Attempts to automatically map properties on the from class.
+    /// </summary>
+    /// <remarks>Any property that has an idetically named property on the to class will be mapped.</remarks>
+    /// <returns>The mappings that were added.</returns>
+    public Collection<SimpleMapping> AutomaticallyMapProperties()
+    {
+      var identicalProperties = new List<string>(unmappedProperties.Intersect(allToProperties));
+      var addedMappings = new Collection<SimpleMapping>();
+      foreach (var identical in identicalProperties)
+      {
+        try 
+        {
+          addedMappings.Add(AddMapping(identical, identical));
+        } 
+        catch (PropertyAlreadyMappedException) 
+        { 
+        }
+        catch (ArgumentException) 
+        { 
+        }
+      }
+      
+      return addedMappings;
+    }
+    
+    /// <summary>
     /// Adds a simple one-to-one mapping to the translation specification.
     /// </summary>
     /// <param name="fromProperty">The name of the property on the 'From' type.</param>
     /// <param name="toProperty">The name of the property on the 'To' type.</param>
     /// <returns>The mapping that was added.</returns>
-    public AbstractMapping AddMapping(string fromProperty, string toProperty)
+    public SimpleMapping AddMapping(string fromProperty, string toProperty)
     {
       var mapping = new SimpleMapping(fromType.Name, fromProperty, toType.Name, toProperty);
       
@@ -124,8 +154,17 @@ namespace TranslationTester
             CultureInfo.CurrentCulture,
             Properties.Resources.ErrorSimpleMappingMappingAlreadyExists,
             mapping));
-      }
+      }      
       
+      var fromProp = fromType.GetProperty(fromProperty);
+      var fromPropType = fromProp.PropertyType;     
+      var toProp = toType.GetProperty(toProperty);
+      var toPropType = toProp.PropertyType;
+      if (fromPropType != toPropType) 
+      {
+        throw new ArgumentException("Unable to add simple mappings where property types differ");
+      }
+
       unmappedProperties.Remove(fromProperty);
       simpleMappings.Add(mapping);
       if (false == mappedProperties.Contains(fromProperty))
@@ -206,8 +245,9 @@ namespace TranslationTester
       foreach (var mapping in simpleMappings)
       {
         var fromProperty = fromType.GetProperty(mapping.FromProperty);
-        object fromValue = fromProperty.GetValue(from, null);
-        object toValue = toType.GetProperty(mapping.ToProperty).GetValue(to, null);
+        var toProperty = toType.GetProperty(mapping.ToProperty);
+        var fromValue = fromProperty.GetValue(from, null);
+        var toValue = toProperty.GetValue(to, null);
         if (false == fromValue.Equals(toValue))
         {
           failures.Add(mapping);
@@ -233,7 +273,7 @@ namespace TranslationTester
         
         throw new MappingFailedException(failures, failureMessage.ToString());
       }
-    }      
+    }
     
     /// <summary>
     /// Verifies an instance of the 'from' type is sufficiently specified

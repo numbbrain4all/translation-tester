@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddSimpleMappingTest.cs" />
+    <Compile Include="AutomateMappingsTest.cs" />
     <Compile Include="BasicTranslationTest.cs" />
     <Compile Include="ConstructorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="SupportClasses\SubStructTo.cs" />
     <Compile Include="SupportClasses\SubTypeFrom.cs" />
     <Compile Include="SupportClasses\SubTypeTo.cs" />
+    <Compile Include="SupportClasses\ToAutomatedMappings.cs" />
     <Compile Include="Translators\SinglePropertyMappedTranslator.cs" />
     <Compile Include="VerifyFromInstanceTest.cs" />
     <Compile Include="VerifySimpleMappingsTest.cs" />
