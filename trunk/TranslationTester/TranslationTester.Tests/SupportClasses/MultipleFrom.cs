@@ -35,6 +35,7 @@ namespace TranslationTester.Tests
 	public class MultipleFrom
 	{
 		public int Property1{get;set;}
+		public int Property2{get;set;}
 		public string StringProp{get;set;}
 		public SubTypeFrom RefProp{get;set;}
 		public SubStruct StructProp{get;set;}
