@@ -104,9 +104,6 @@ namespace TranslationTester
         {
           addedMappings.Add(AddMapping(identical, identical));
         } 
-        catch (PropertyAlreadyMappedException) 
-        { 
-        }
         catch (ArgumentException) 
         { 
         }
