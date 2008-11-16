@@ -5,7 +5,7 @@
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
 //
-//  * Redistributions of source code must retain the above copyright notice, 
+//  * Redistributions of source code must retain the above copyright notice,
 // this list of conditions and the following disclaimer.
 //  * Redistributions in binary form must reproduce the above copyright notice,
 // this list of conditions and the following disclaimer in the documentation
@@ -15,7 +15,7 @@
 // software without specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
 // DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
 // FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
@@ -29,7 +29,9 @@
 namespace TranslationTester
 {
   using System;
-  
+  using System.Globalization;
+  using System.Reflection;
+
   /// <summary>
   /// Abstract base class for all mappings.
   /// </summary>
@@ -38,26 +40,71 @@ namespace TranslationTester
     /// <summary>
     /// Initializes a new instance of the <see cref="AbstractMapping" /> class.
     /// </summary>
-    /// <param name="fromName">The name of the 'From' type.</param>
+    /// <param name="fromType">The <see cref="Type" /> of the 'From' type.</param>
     /// <param name="fromProperty">The property on the 'From' type.</param>
     protected AbstractMapping(
-      string fromName,
+      Type fromType,
       string fromProperty)
     {
-      FromName = fromName;
-      FromProperty = fromProperty;
+      FromType = fromType;
+      FromProperty = fromType.GetProperty(fromProperty);
+      if (FromProperty == null)
+      {
+        throw new PropertyNotFoundException(
+          string.Format(
+            CultureInfo.CurrentCulture,
+            Properties.Resources.ErrorSimpleMappingPropertyNotFound,
+            FromName,
+            fromProperty));
+      }
+    }
+    
+    /// <summary>
+    /// Gets the <see cref="Type" /> of the 'From' type.
+    /// </summary>
+    /// <value>The <see cref="Type" /> of the 'From' type.</value>
+    public Type FromType { get; private set; }
+    
+    /// <summary>
+    /// Gets the <see cref="PropertyInfo"/> of the 'From' property.
+    /// </summary>
+    /// <value>The <see cref="PropertyInfo"/> of the 'From' property.</value>
+    public PropertyInfo FromProperty { get; private set; }
+    
+    /// <summary>
+    /// Gets the <see cref="Type"/> of the 'From' property.
+    /// </summary>
+    /// <value>Gets the <see cref="Type"/> of the 'From' property.</value>
+    public Type FromPropertyType 
+    {
+      get
+      {
+        return FromProperty.PropertyType;
+      }
     }
     
     /// <summary>
     /// Gets the name of the 'From' type.
     /// </summary>
     /// <value>The name of the 'From' type.</value>
-    public string FromName { get; private set; }
+    public string FromName 
+    {
+      get
+      {
+        return FromType.Name;
+      }
+    }
     
     /// <summary>
     /// Gets the name of the property on the 'From' type.
     /// </summary>
     /// <value>The property on the 'From' type.</value>
-    public string FromProperty { get; private set; }
+    public string FromPropertyName 
+    {
+      get
+      {
+        return FromProperty.Name;
+      }
+    }
   }
 }

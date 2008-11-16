@@ -28,8 +28,9 @@
 
 namespace TranslationTester
 {
-  using System;
-  using System.Globalization;
+using System;
+using System.Globalization;
+using System.Reflection;
 
   /// <summary>
   /// Represents a one-to-one mapping between properties on two types.
@@ -39,32 +40,82 @@ namespace TranslationTester
     /// <summary>
     /// Initializes a new instance of the <see cref="SimpleMapping" /> class.
     /// </summary>
-    /// <param name="fromName">The name of the 'From' type.</param>
+    /// <param name="fromType">The <see cref="Type" /> of the 'From' type.</param>
     /// <param name="fromProperty">The property on the 'From' type.</param>
-    /// <param name="toName">The name of the 'To' type.</param>
+    /// <param name="toType">The <see cref="Type" /> of the 'To' type.</param>
     /// <param name="toProperty">The property on the 'To' type.</param>
     public SimpleMapping(
-      string fromName,
+      Type fromType,
       string fromProperty,
-      string toName,
+      Type toType,
       string toProperty)
-      : base(fromName, fromProperty)
+      : base(fromType, fromProperty)
     {
-      ToName = toName;
-      ToProperty = toProperty;
+      ToType = toType;
+      ToProperty = toType.GetProperty(toProperty);
+      if (ToProperty == null)
+      {
+        throw new PropertyNotFoundException(
+          string.Format(
+            CultureInfo.CurrentCulture,
+            Properties.Resources.ErrorSimpleMappingPropertyNotFound,
+            ToName,
+            toProperty));
+      }
+      
+      if (FromPropertyType != ToPropertyType) 
+      {
+        throw new ArgumentException("Unable to add simple mappings where property types differ");
+      }
+    }
+    
+    /// <summary>
+    /// Gets the <see cref="Type" /> of the 'To' type.
+    /// </summary>
+    /// <value>The <see cref="Type" /> of the 'To' type.</value>
+    public Type ToType { get; private set; }
+    
+    /// <summary>
+    /// Gets the <see cref="PropertyInfo"/> of the 'To' property.
+    /// </summary>
+    /// <value>The <see cref="PropertyInfo"/> of the 'To' property.</value>
+    public PropertyInfo ToProperty { get; private set; }
+    
+    /// <summary>
+    /// Gets the <see cref="Type"/> of the 'To' property.
+    /// </summary>
+    /// <value>Gets the <see cref="Type"/> of the 'To' property.</value>
+    public Type ToPropertyType
+    {
+      get
+      {
+        return ToProperty.PropertyType;
+      }
     }
     
     /// <summary>
     /// Gets the name of the 'To' type.
     /// </summary>
     /// <value>The name of the 'To' type.</value>
-    public string ToName { get; private set; }
+    public string ToName 
+    {
+      get
+      {
+        return ToType.Name;
+      }
+    }
     
     /// <summary>
     /// Gets the name of the property on the 'To' class.
     /// </summary>
     /// <value>The property on the 'To' class.</value>
-    public string ToProperty { get; private set; }
+    public string ToPropertyName 
+    {
+      get
+      {
+        return ToProperty.Name;      
+      }    
+    }
     
     /// <summary>
     /// Returns a string representation of the Simple Mapping.
