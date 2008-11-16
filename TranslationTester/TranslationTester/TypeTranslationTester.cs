@@ -120,29 +120,7 @@ namespace TranslationTester
     /// <returns>The mapping that was added.</returns>
     public SimpleMapping AddMapping(string fromProperty, string toProperty)
     {
-      var mapping = new SimpleMapping(fromType.Name, fromProperty, toType.Name, toProperty);
-      
-      if (false == allFromProperties.Contains(fromProperty))
-      {
-        throw new PropertyNotFoundException(
-          string.Format(
-            CultureInfo.CurrentCulture,
-            Properties.Resources.ErrorSimpleMappingPropertyNotFound,
-            mapping,
-            fromType.Name,
-            fromProperty));
-      }
-      
-      if (false == allToProperties.Contains(toProperty))
-      {
-        throw new PropertyNotFoundException(
-          string.Format(
-            CultureInfo.CurrentCulture,
-            Properties.Resources.ErrorSimpleMappingPropertyNotFound,
-            mapping,
-            toType.Name,
-            toProperty));
-      }
+      var mapping = new SimpleMapping(fromType, fromProperty, toType, toProperty);
       
       if (simpleMappings.Contains(mapping))
       {
@@ -151,16 +129,7 @@ namespace TranslationTester
             CultureInfo.CurrentCulture,
             Properties.Resources.ErrorSimpleMappingMappingAlreadyExists,
             mapping));
-      }      
-      
-      var fromProp = fromType.GetProperty(fromProperty);
-      var fromPropType = fromProp.PropertyType;     
-      var toProp = toType.GetProperty(toProperty);
-      var toPropType = toProp.PropertyType;
-      if (fromPropType != toPropType) 
-      {
-        throw new ArgumentException("Unable to add simple mappings where property types differ");
-      }
+      }        
 
       unmappedProperties.Remove(fromProperty);
       simpleMappings.Add(mapping);
@@ -241,10 +210,8 @@ namespace TranslationTester
       
       foreach (var mapping in simpleMappings)
       {
-        var fromProperty = fromType.GetProperty(mapping.FromProperty);
-        var toProperty = toType.GetProperty(mapping.ToProperty);
-        var fromValue = fromProperty.GetValue(from, null);
-        var toValue = toProperty.GetValue(to, null);
+        var fromValue = mapping.FromProperty.GetValue(from, null);
+        var toValue = mapping.ToProperty.GetValue(to, null);
         if (false == fromValue.Equals(toValue))
         {
           failures.Add(mapping);
@@ -257,8 +224,8 @@ namespace TranslationTester
         failureMessage.Append(Properties.Resources.ErrorSimpleMappingFailed);
         foreach (SimpleMapping mapping in failures)
         {
-          object fromValue = fromType.GetProperty(mapping.FromProperty).GetValue(from, null);
-          object toValue = toType.GetProperty(mapping.ToProperty).GetValue(to, null);
+          object fromValue = mapping.FromProperty.GetValue(from, null);
+          object toValue = mapping.ToProperty.GetValue(to, null);
           failureMessage.AppendLine();
           failureMessage.AppendFormat(
             CultureInfo.CurrentCulture,

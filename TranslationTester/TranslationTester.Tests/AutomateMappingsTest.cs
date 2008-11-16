@@ -48,8 +48,9 @@ namespace TranslationTester.Tests
   //Scenario 2: Identical names but different types
   //Given both the 'from' and 'to' classes have identically named properties
   //When  The Developer asks the TranslationTester to automatically map properties
-  //Then  A simple mapping should be added for the property
-//
+  //Then  No mapping should be added
+  //  And the method should return successfully
+  
   //Scenario 3: Potential mapping already added
   //Given that a potential automated mapping exists
   //  And the associated from property has already been mapped
@@ -104,7 +105,7 @@ namespace TranslationTester.Tests
     public void IdenticalNameAndTypeMapped()
     {
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsTrue(mappings.Any(p=>p.FromProperty=="Property1"));
+      Assert.IsTrue(mappings.Any(p=>p.FromPropertyName=="Property1"));
     }
     
     [Test]
@@ -113,7 +114,7 @@ namespace TranslationTester.Tests
     public void IdenticalNameDifferentTypeNotMapped()
     {
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsFalse(mappings.Any(p=>p.FromProperty=="Property2"));
+      Assert.IsFalse(mappings.Any(p=>p.FromPropertyName=="Property2"));
     }
     
     [Test]
@@ -124,7 +125,7 @@ namespace TranslationTester.Tests
       var prop="Property1";
       target.AddMapping(prop,prop);
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsFalse(mappings.Any(p=>p.FromProperty==prop));
+      Assert.IsFalse(mappings.Any(p=>p.FromPropertyName==prop));
     }
     
     [Test]
@@ -136,7 +137,7 @@ namespace TranslationTester.Tests
       var prop2="StringProp";
       target.AddMapping(prop2,prop2);
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsTrue(mappings.Any(p=>p.FromProperty==prop));
+      Assert.IsTrue(mappings.Any(p=>p.FromPropertyName==prop));
     }
     
     [Test]
@@ -147,7 +148,7 @@ namespace TranslationTester.Tests
       var prop="Property1";
       target.ExcludeProperty(prop);
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsFalse(mappings.Any(p=>p.FromProperty==prop));
+      Assert.IsFalse(mappings.Any(p=>p.FromPropertyName==prop));
     }
     
     [Test]
@@ -159,7 +160,7 @@ namespace TranslationTester.Tests
       var prop2="StringProp";
       target.ExcludeProperty(prop2);
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsTrue(mappings.Any(p=>p.FromProperty==prop));
+      Assert.IsTrue(mappings.Any(p=>p.FromPropertyName==prop));
     }
     
     [Test]

@@ -124,7 +124,7 @@
     <value>Unable to exclude property '{0}.{1}' as it is already mapped or excluded</value>
   </data>
   <data name="ErrorSimpleMappingPropertyNotFound" xml:space="preserve">
-    <value>Unable to add mapping '{0}' as property '{1}.{2}' was not found </value>
+    <value>Unable to add mapping as property '{0}.{1}' was not found </value>
   </data>
   <data name="SimpleMapping" xml:space="preserve">
     <value>{0}.{1} to {2}.{3}</value>

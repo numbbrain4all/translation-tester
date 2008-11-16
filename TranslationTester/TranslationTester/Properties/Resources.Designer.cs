@@ -147,7 +147,7 @@ namespace TranslationTester.Properties
     }
     
     /// <summary>
-    ///   Looks up a localized string similar to Unable to add mapping &apos;{0}&apos; as property &apos;{1}.{2}&apos; was not found .
+    ///   Looks up a localized string similar to Unable to add mapping as property &apos;{0}.{1}&apos; was not found .
     /// </summary>
     internal static string ErrorSimpleMappingPropertyNotFound
     {
