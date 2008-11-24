@@ -29,44 +29,44 @@
 using System;
 using NUnit.Framework;
 
+//  Narrative:
+//As a Developer
+//I want to be able to specify that a property on the 'from' type is directly
+//assigned to a corresponding property on the 'to' type
+//So that I can test that these mappings are fulfilled
+//
+//Acceptance Criteria:
+//
+//Scenario 1: Properties exists on 'from' and 'to'
+//Given that the corresponding property exists on the 'From' class
+//  And the corresponding property exists on the 'To' class
+//When the Developer tries to add a simple mapping
+//Then the test for 'AllPropertiesMapped' will not fail on this property
+//
+//Scenario 2: Property does not exist on one or both classes
+//Given that the specified property does not exist on one of the classes
+//When the Developer tries to add the mapping
+//Then the addition should fail
+// And the property name(s) that did not exist should be shown
+//
+//Scenario 3: Property already mapped to another property
+//Given that the specified property exists
+// And the property already has a mapping
+//When the Developer tries to add a simple mapping
+//Then the addition should succeed
+//  And the mapping should be available for testing (One property could be
+//mapped to multiple outcomes)
+//
+//Scenario 4: Property mapping already exists
+//Given that the specified property exists
+// And the property already has a mapping with the same 'from' and 'to'
+//properties
+//When the Developer tries to add a simple mapping
+//Then the addition should fail
+//  And the reason for the failure should be shown
+
 namespace TranslationTester.Tests
 {
-  //  Narrative:
-  //As a Developer
-  //I want to be able to specify that a property on the 'from' type is directly
-  //assigned to a corresponding property on the 'to' type
-  //So that I can test that these mappings are fulfilled
-//
-  //Acceptance Criteria:
-//
-  //Scenario 1: Properties exists on 'from' and 'to'
-  //Given that the corresponding property exists on the 'From' class
-  //  And the corresponding property exists on the 'To' class
-  //When the Developer tries to add a simple mapping
-  //Then the test for 'AllPropertiesMapped' will not fail on this property
-//
-  //Scenario 2: Property does not exist on one or both classes
-  //Given that the specified property does not exist on one of the classes
-  //When the Developer tries to add the mapping
-  //Then the addition should fail
-  // And the property name(s) that did not exist should be shown
-//
-  //Scenario 3: Property already mapped to another property
-  //Given that the specified property exists
-  // And the property already has a mapping
-  //When the Developer tries to add a simple mapping
-  //Then the addition should succeed
-  //  And the mapping should be available for testing (One property could be
-  //mapped to multiple outcomes)
-//
-  //Scenario 4: Property mapping already exists
-  //Given that the specified property exists
-  // And the property already has a mapping with the same 'from' and 'to'
-  //properties
-  //When the Developer tries to add a simple mapping
-  //Then the addition should fail
-  //  And the reason for the failure should be shown
-  
   [TestFixture]
   public class AddSimpleMappingTest
   {
@@ -134,7 +134,7 @@ namespace TranslationTester.Tests
     {
       var actual = Assert.Throws<ArgumentException>(
         ()=>  target.AddMapping("Property1","Property2")//int to decimal
-       );     
+       );
     }
     
     [Test]
@@ -145,7 +145,7 @@ namespace TranslationTester.Tests
     {
       var actual = Assert.Throws<ArgumentException>(
         ()=>   target.AddMapping("Property1","ShortProp")//int to short
-       );  
+       );
     }
     
     [Test]

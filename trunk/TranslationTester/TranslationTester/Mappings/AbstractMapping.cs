@@ -28,83 +28,117 @@
 
 namespace TranslationTester
 {
-  using System;
-  using System.Globalization;
-  using System.Reflection;
+using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Reflection;
 
   /// <summary>
   /// Abstract base class for all mappings.
   /// </summary>
-  public abstract class AbstractMapping
+  /// <typeparam name="TFrom">The type being translated from.</typeparam>
+  /// <typeparam name="TTo">The type being translated to.</typeparam>
+  public abstract class AbstractMapping<TFrom, TTo> : IMapping
   {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AbstractMapping" /> class.
+    /// Initializes a new instance of the <see cref="AbstractMapping{TFrom, TTo}" /> class.
     /// </summary>
-    /// <param name="fromType">The <see cref="Type" /> of the 'From' type.</param>
     /// <param name="fromProperty">The property on the 'From' type.</param>
-    protected AbstractMapping(
-      Type fromType,
-      string fromProperty)
+    protected AbstractMapping(string fromProperty)
     {
-      FromType = fromType;
-      FromProperty = fromType.GetProperty(fromProperty);
-      if (FromProperty == null)
+      FromType = typeof(TFrom);
+      ToType = typeof(TTo);
+      FromProperty = FromType.GetProperty(fromProperty);
+      if (FromProperty == null) 
       {
-        throw new PropertyNotFoundException(
-          string.Format(
-            CultureInfo.CurrentCulture,
-            Properties.Resources.ErrorSimpleMappingPropertyNotFound,
-            FromName,
-            fromProperty));
+        throw new PropertyNotFoundException(string.Format(CultureInfo.CurrentCulture, Properties.Resources.ErrorSimpleMappingPropertyNotFound, FromName, fromProperty));
       }
     }
-    
+
     /// <summary>
     /// Gets the <see cref="Type" /> of the 'From' type.
     /// </summary>
     /// <value>The <see cref="Type" /> of the 'From' type.</value>
-    public Type FromType { get; private set; }
-    
+    public Type FromType 
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
+    /// Gets the <see cref="Type" /> of the 'To' type.
+    /// </summary>
+    /// <value>The <see cref="Type" /> of the 'To' type.</value>
+    public Type ToType 
+    {
+      get;
+      private set;
+    }
+
     /// <summary>
     /// Gets the <see cref="PropertyInfo"/> of the 'From' property.
     /// </summary>
     /// <value>The <see cref="PropertyInfo"/> of the 'From' property.</value>
-    public PropertyInfo FromProperty { get; private set; }
-    
+    public PropertyInfo FromProperty 
+    {
+      get;
+      private set;
+    }
+
     /// <summary>
     /// Gets the <see cref="Type"/> of the 'From' property.
     /// </summary>
     /// <value>Gets the <see cref="Type"/> of the 'From' property.</value>
     public Type FromPropertyType 
     {
-      get
-      {
-        return FromProperty.PropertyType;
-      }
+      get { return FromProperty.PropertyType; }
     }
-    
+
     /// <summary>
     /// Gets the name of the 'From' type.
     /// </summary>
     /// <value>The name of the 'From' type.</value>
     public string FromName 
     {
-      get
-      {
-        return FromType.Name;
-      }
+      get { return FromType.Name; }
     }
-    
+
+    /// <summary>
+    /// Gets the name of the 'To' type.
+    /// </summary>
+    /// <value>The name of the 'To' type.</value>
+    public string ToName 
+    {
+      get { return ToType.Name; }
+    }
+
     /// <summary>
     /// Gets the name of the property on the 'From' type.
     /// </summary>
     /// <value>The property on the 'From' type.</value>
     public string FromPropertyName 
     {
+      get { return FromProperty.Name; }
+    }
+    
+    /// <summary>
+    /// Gets the collection of <see cref="PropertyInfo"/> of the 'From' property that are included in this mapping.
+    /// </summary>
+    /// <value>The collection of <see cref="PropertyInfo"/> of the 'From' property that are included in this mapping.</value>
+    public Collection<PropertyInfo> FromProperties
+    {
       get
       {
-        return FromProperty.Name;
+        return new Collection<PropertyInfo> { FromProperty };
       }
     }
+    
+    /// <summary>
+    /// Determines whether this mapping was fulfilled based on the from and to instances (post translation).
+    /// </summary>
+    /// <param name="fromInstance">The instance of the 'From' class that exercised the translation.</param>
+    /// <param name="toInstance">The instance of the 'To' class that exercised the translation.</param>
+    /// <returns>True if the mapping was fulfilled, false otherwise.</returns>
+    public abstract bool Evaluate(TFrom fromInstance, TTo toInstance);
   }
 }

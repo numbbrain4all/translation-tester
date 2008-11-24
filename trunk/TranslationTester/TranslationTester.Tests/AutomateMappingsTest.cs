@@ -30,61 +30,58 @@ using System;
 using NUnit.Framework;
 using System.Linq;
 
+//  Narrative:
+//As a Developer
+//I want to reduce the amount of ‘boilerplate’ code for testing translators
+//So that I can work more efficiently
+//
+//Acceptance Criteria:
+//
+//Scenario 1: Identical properties
+//Given both the 'from' and 'to' classes have identically named properties
+//  And Both properties have the same type
+//When  The Developer asks the TranslationTester to automatically map properties
+//Then  A simple mapping should be added for the property
+//
+//Scenario 2: Identical names but different types
+//Given both the 'from' and 'to' classes have identically named properties
+//When  The Developer asks the TranslationTester to automatically map properties
+//Then  No mapping should be added
+//  And the method should return successfully
+
+//Scenario 3: Potential mapping already added
+//Given that a potential automated mapping exists
+//  And the associated from property has already been mapped
+//When  The Developer asks the TranslationTester to automatically map properties
+//Then  No mapping should be added
+//  And the method should return successfully
+//
+//Scenario 4: Other mapping already added
+//Given that a potential automated mapping exists
+//  And a seperate property has already been mapped
+//When  The Developer asks the TranslationTester to automatically map properties
+//Then  the mapping for the potentially automated mapping should be added
+//
+//Scenario 5: Potential mapping already excluded
+//Given that a potential automated mapping exists
+//  And the associated from property has already been excluded
+//When  The Developer asks the TranslationTester to automatically map properties
+//Then  No mapping should be added
+//  And the method should return successfully
+//
+//Scenario 6: Other property already excluded
+//Given that a potential automated mapping exists
+//  And a seperate property has already been excluded
+//When  The Developer asks the TranslationTester to automatically map properties
+//Then  the mapping for the potentially automated mapping should be added
+//
+//Scenario 7: Mappings returned
+//Given that there are multiple potential automated mappings
+//When  The Developer asks the TranslationTester to automatically map properties
+//Then  the mappings will be returned from the method call
+
 namespace TranslationTester.Tests
 {
-  //  Narrative:
-  //As a Developer
-  //I want to reduce the amount of ‘boilerplate’ code for testing translators
-  //So that I can work more efficiently
-//
-  //Acceptance Criteria:
-//
-  //Scenario 1: Identical properties
-  //Given both the 'from' and 'to' classes have identically named properties
-  //  And Both properties have the same type
-  //When  The Developer asks the TranslationTester to automatically map properties
-  //Then  A simple mapping should be added for the property
-//
-  //Scenario 2: Identical names but different types
-  //Given both the 'from' and 'to' classes have identically named properties
-  //When  The Developer asks the TranslationTester to automatically map properties
-  //Then  No mapping should be added
-  //  And the method should return successfully
-  
-  //Scenario 3: Potential mapping already added
-  //Given that a potential automated mapping exists
-  //  And the associated from property has already been mapped
-  //When  The Developer asks the TranslationTester to automatically map properties
-  //Then  No mapping should be added
-  //  And the method should return successfully
-//
-  //Scenario 4: Other mapping already added
-  //Given that a potential automated mapping exists
-  //  And a seperate property has already been mapped
-  //When  The Developer asks the TranslationTester to automatically map properties
-  //Then  the mapping for the potentially automated mapping should be added
-//
-  //Scenario 5: Potential mapping already excluded
-  //Given that a potential automated mapping exists
-  //  And the associated from property has already been excluded
-  //When  The Developer asks the TranslationTester to automatically map properties
-  //Then  No mapping should be added
-  //  And the method should return successfully
-//
-  //Scenario 6: Other property already excluded
-  //Given that a potential automated mapping exists
-  //  And a seperate property has already been excluded
-  //When  The Developer asks the TranslationTester to automatically map properties
-  //Then  the mapping for the potentially automated mapping should be added
-//
-  //Scenario 7: Mappings returned
-  //Given that there are multiple potential automated mappings
-  //When  The Developer asks the TranslationTester to automatically map properties
-  //Then  the mappings will be returned from the method call
-
-
-
-
   [TestFixture]
   public class AutomateMappingsTest
   {
@@ -105,7 +102,7 @@ namespace TranslationTester.Tests
     public void IdenticalNameAndTypeMapped()
     {
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsTrue(mappings.Any(p=>p.FromPropertyName=="Property1"));
+      Assert.IsTrue(mappings.Any(p=>p.FromProperties[0].Name=="Property1"));
     }
     
     [Test]
@@ -114,7 +111,7 @@ namespace TranslationTester.Tests
     public void IdenticalNameDifferentTypeNotMapped()
     {
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsFalse(mappings.Any(p=>p.FromPropertyName=="Property2"));
+      Assert.IsFalse(mappings.Any(p=>p.FromProperties[0].Name=="Property2"));
     }
     
     [Test]
@@ -125,11 +122,11 @@ namespace TranslationTester.Tests
       var prop="Property1";
       target.AddMapping(prop,prop);
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsFalse(mappings.Any(p=>p.FromPropertyName==prop));
+      Assert.IsFalse(mappings.Any(p=>p.FromProperties[0].Name==prop));
     }
     
     [Test]
-    [Description(@"Scenario 4: Potential mapping exists, other mapping already added 
+    [Description(@"Scenario 4: Potential mapping exists, other mapping already added
       automated one added")]
     public void OtherMappingAlreadyExistsMappingAdded()
     {
@@ -137,18 +134,18 @@ namespace TranslationTester.Tests
       var prop2="StringProp";
       target.AddMapping(prop2,prop2);
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsTrue(mappings.Any(p=>p.FromPropertyName==prop));
+      Assert.IsTrue(mappings.Any(p=>p.FromProperties[0].Name==prop));
     }
     
     [Test]
-    [Description(@"Scenario 5: Potential mapping already excluded, not added 
+    [Description(@"Scenario 5: Potential mapping already excluded, not added
       by automatic method")]
     public void PropertyAlreadyExcludedNoChange()
     {
       var prop="Property1";
       target.ExcludeProperty(prop);
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsFalse(mappings.Any(p=>p.FromPropertyName==prop));
+      Assert.IsFalse(mappings.Any(p=>p.FromProperties[0].Name==prop));
     }
     
     [Test]
@@ -160,7 +157,7 @@ namespace TranslationTester.Tests
       var prop2="StringProp";
       target.ExcludeProperty(prop2);
       var mappings= target.AutomaticallyMapProperties();
-      Assert.IsTrue(mappings.Any(p=>p.FromPropertyName==prop));
+      Assert.IsTrue(mappings.Any(p=>p.FromProperties[0].Name==prop));
     }
     
     [Test]

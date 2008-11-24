@@ -29,34 +29,33 @@
 using System;
 using NUnit.Framework;
 
+//Narrative:
+//As a Developer
+//I want to specify that a property should not be translated
+//So that I can have minimal classes
+//
+//Acceptance Criteria:
+//
+//Scenario 1: Property exists
+//Given that the specified property exists on the 'From' class
+//When the Developer tries to exclude the property
+//Then the test for 'AllPropertiesMapped' will not fail on this property
+//
+//Scenario 2: Property does not exist
+//Given that the specified property does not exist on the 'From' class
+//When the Developer tries to exclude the property
+//Then the exclusion should fail
+// And the property name should be shown
+//
+//Scenario 3: Property already mapped
+//Given that the specified property exists
+// And the property already has a mapping
+//When the Developer tries to exclude the property
+//Then the exclusion should fail
+// And the property name should be shown
+
 namespace TranslationTester.Tests
 {
-
-  //Narrative:
-  //As a Developer
-  //I want to specify that a property should not be translated
-  //So that I can have minimal classes
-//
-  //Acceptance Criteria:
-//
-  //Scenario 1: Property exists
-  //Given that the specified property exists on the 'From' class
-  //When the Developer tries to exclude the property
-  //Then the test for 'AllPropertiesMapped' will not fail on this property
-//
-  //Scenario 2: Property does not exist
-  //Given that the specified property does not exist on the 'From' class
-  //When the Developer tries to exclude the property
-  //Then the exclusion should fail
-  // And the property name should be shown
-//
-  //Scenario 3: Property already mapped
-  //Given that the specified property exists
-  // And the property already has a mapping
-  //When the Developer tries to exclude the property
-  //Then the exclusion should fail
-  // And the property name should be shown
-
   [TestFixture]
   public class PropertyExclusionTest
   {

@@ -29,74 +29,72 @@
 using System;
 using NUnit.Framework;
 
-namespace TranslationTester.Tests
-{
-  //  Narrative:
-  //As a Developer
-  //I want to be informed if the provided from instance will not be sufficient
-  //to verify the mappings
-  //So that I can fix the test to ensure all mappings are fully verified
+//  Narrative:
+//As a Developer
+//I want to be informed if the provided from instance will not be sufficient
+//to verify the mappings
+//So that I can fix the test to ensure all mappings are fully verified
 //
-  //Acceptance Criteria:
+//Acceptance Criteria:
 //
-  //Scenario 1: Value type property not set
-  //Given that the from type has a value type propery (e.g. int)
-  //  And a mapping is specified for this property
-  //  And the from instance does not assign a value to this property
-  //When  VerifyFromInstance is called
-  //Then  An exception should be thrown
-  //  And the exception should contain the property name that was not assigned
+//Scenario 1: Value type property not set
+//Given that the from type has a value type propery (e.g. int)
+//  And a mapping is specified for this property
+//  And the from instance does not assign a value to this property
+//When  VerifyFromInstance is called
+//Then  An exception should be thrown
+//  And the exception should contain the property name that was not assigned
 //
-  //Scenario 2: Reference type property not set
-  //Given that the from type has a reference type propery (e.g. an instance of
-  //another class)
-  //  And a mapping is specified for this property
-  //  And the from instance does not assign a value to this property
-  //When  VerifyFromInstance is called
-  //Then  An exception should be thrown
-  //  And the exception should contain the property name that was not assigned
+//Scenario 2: Reference type property not set
+//Given that the from type has a reference type propery (e.g. an instance of
+//another class)
+//  And a mapping is specified for this property
+//  And the from instance does not assign a value to this property
+//When  VerifyFromInstance is called
+//Then  An exception should be thrown
+//  And the exception should contain the property name that was not assigned
 //
-  //Scenario 2: Reference type property not set
-  //Given that the from type has a reference type propery (e.g. an instance of
-  //another class)
-  //  And a mapping is specified for this property
-  //  And the from instance does not assign a value to this property
-  //When  VerifyFromInstance is called
-  //Then  An exception should be thrown
-  //  And the exception should contain the property name that was not assigned
+//Scenario 2: Reference type property not set
+//Given that the from type has a reference type propery (e.g. an instance of
+//another class)
+//  And a mapping is specified for this property
+//  And the from instance does not assign a value to this property
+//When  VerifyFromInstance is called
+//Then  An exception should be thrown
+//  And the exception should contain the property name that was not assigned
 //
-  //Scenario 3: string type property not set
-  //Given that the from type has a string propery
-  //  And a mapping is specified for this property
-  //  And the from instance does not assign a value to this property
-  //When  VerifyFromInstance is called
-  //Then  An exception should be thrown
-  //  And the exception should contain the property name that was not assigned
+//Scenario 3: string type property not set
+//Given that the from type has a string propery
+//  And a mapping is specified for this property
+//  And the from instance does not assign a value to this property
+//When  VerifyFromInstance is called
+//Then  An exception should be thrown
+//  And the exception should contain the property name that was not assigned
 //
-  //Scenario 4: Multiple properties not set
-  //Given that the from type has multiple properties
-  //  And a mapping is specified for multiple properties
-  //  And the from instance does not assign a value to these properties
-  //When  VerifyFromInstance is called
-  //Then  An exception should be thrown
-  //  And the exception should contain the names of all the properties that
-  //were not assigned
+//Scenario 4: Multiple properties not set
+//Given that the from type has multiple properties
+//  And a mapping is specified for multiple properties
+//  And the from instance does not assign a value to these properties
+//When  VerifyFromInstance is called
+//Then  An exception should be thrown
+//  And the exception should contain the names of all the properties that
+//were not assigned
 //
-  //Scenario 5: VerifyAllMappings also verifies from instance
-  //Given that the from instance has mapped, unassigned properties
-  //When  VerifyAllMappings is called
-  //Then  An exception should be thrown
+//Scenario 5: VerifyAllMappings also verifies from instance
+//Given that the from instance has mapped, unassigned properties
+//When  VerifyAllMappings is called
+//Then  An exception should be thrown
 //
-  //Scenario 6: struct type property not set
-  //Given that the from type has a struct propery
-  //  And a mapping is specified for this property
-  //  And the from instance does not assign a value to this property
-  //When  VerifyFromInstance is called
-  //Then  An exception should be thrown
-  //  And the exception should contain the property name that was not assigned
+//Scenario 6: struct type property not set
+//Given that the from type has a struct propery
+//  And a mapping is specified for this property
+//  And the from instance does not assign a value to this property
+//When  VerifyFromInstance is called
+//Then  An exception should be thrown
+//  And the exception should contain the property name that was not assigned
 
-  
-  
+namespace TranslationTester.Tests
+{  
   [TestFixture]
   public class VerifyFromInstanceTest
   {
@@ -130,11 +128,14 @@ namespace TranslationTester.Tests
     }
     
     [Test]
-    [Ignore("Can't test this with simple mappins as the mapping will not even add")]
     [Description(@"Scenario 2: reference types default to null")]
     public void ReferenceTypeNotSetThrows()
     {
-      //target.AddMapping("RefProp","RefProperty");
+      Func<MultipleFrom, SimpleTo, bool> match=(f,t)=>{
+        return true;
+      };
+      
+      target.AddMapping("RefProp",match);
       
       var actual= Assert.Throws<ArgumentException>(()=>target.VerifyFromInstance(from));
     }

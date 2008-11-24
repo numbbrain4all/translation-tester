@@ -28,31 +28,28 @@
 
 namespace TranslationTester
 {
-using System;
-using System.Globalization;
-using System.Reflection;
+  using System;
+  using System.Globalization;
+  using System.Reflection;
 
   /// <summary>
   /// Represents a one-to-one mapping between properties on two types.
   /// </summary>
-  public class SimpleMapping : AbstractMapping
+  /// <typeparam name="TFrom">The type being translated from.</typeparam>
+  /// <typeparam name="TTo">The type being translated to.</typeparam>
+  public class SimpleMapping<TFrom, TTo> : AbstractMapping<TFrom, TTo>
   {
     /// <summary>
-    /// Initializes a new instance of the <see cref="SimpleMapping" /> class.
+    /// Initializes a new instance of the <see cref="SimpleMapping{TFrom, TTo}" /> class.
     /// </summary>
-    /// <param name="fromType">The <see cref="Type" /> of the 'From' type.</param>
     /// <param name="fromProperty">The property on the 'From' type.</param>
-    /// <param name="toType">The <see cref="Type" /> of the 'To' type.</param>
     /// <param name="toProperty">The property on the 'To' type.</param>
     public SimpleMapping(
-      Type fromType,
       string fromProperty,
-      Type toType,
       string toProperty)
-      : base(fromType, fromProperty)
+      : base(fromProperty)
     {
-      ToType = toType;
-      ToProperty = toType.GetProperty(toProperty);
+      ToProperty = ToType.GetProperty(toProperty);
       if (ToProperty == null)
       {
         throw new PropertyNotFoundException(
@@ -63,17 +60,11 @@ using System.Reflection;
             toProperty));
       }
       
-      if (FromPropertyType != ToPropertyType) 
+      if (FromPropertyType != ToPropertyType)
       {
         throw new ArgumentException("Unable to add simple mappings where property types differ");
       }
     }
-    
-    /// <summary>
-    /// Gets the <see cref="Type" /> of the 'To' type.
-    /// </summary>
-    /// <value>The <see cref="Type" /> of the 'To' type.</value>
-    public Type ToType { get; private set; }
     
     /// <summary>
     /// Gets the <see cref="PropertyInfo"/> of the 'To' property.
@@ -94,27 +85,15 @@ using System.Reflection;
     }
     
     /// <summary>
-    /// Gets the name of the 'To' type.
-    /// </summary>
-    /// <value>The name of the 'To' type.</value>
-    public string ToName 
-    {
-      get
-      {
-        return ToType.Name;
-      }
-    }
-    
-    /// <summary>
     /// Gets the name of the property on the 'To' class.
     /// </summary>
     /// <value>The property on the 'To' class.</value>
-    public string ToPropertyName 
+    public string ToPropertyName
     {
       get
       {
-        return ToProperty.Name;      
-      }    
+        return ToProperty.Name;
+      }
     }
     
     /// <summary>
@@ -152,7 +131,7 @@ using System.Reflection;
     /// false otherwise.</returns>
     public override bool Equals(object obj)
     {
-      SimpleMapping otherMapping = obj as SimpleMapping;
+      var otherMapping = obj as SimpleMapping<TFrom, TTo>;
       if (otherMapping == null)
       {
         return false;
@@ -166,12 +145,25 @@ using System.Reflection;
     /// </summary>
     /// <param name="other">The mapping to compare to.</param>
     /// <returns>True if all the properties match, false otherwise.</returns>
-    public bool Equals(SimpleMapping other)
+    public bool Equals(SimpleMapping<TFrom, TTo> other)
     {
       return FromName == other.FromName
         && ToName == other.ToName
         && FromProperty == other.FromProperty
         && ToProperty == other.ToProperty;
+    }
+    
+    /// <summary>
+    /// Determines whether this mapping was fulfilled based on the from and to instances (post translation).
+    /// </summary>
+    /// <param name="fromInstance">The instance of the 'From' class that exercised the translation.</param>
+    /// <param name="toInstance">The instance of the 'To' class that exercised the translation.</param>
+    /// <returns>True if the mapping was fulfilled, false otherwise.</returns>
+    public override bool Evaluate(TFrom fromInstance, TTo toInstance)
+    {
+      var fromValue = FromProperty.GetValue(fromInstance, null);
+      var toValue = ToProperty.GetValue(toInstance, null);
+      return fromValue.Equals(toValue);
     }
   }
 }
