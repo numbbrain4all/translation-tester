@@ -38,9 +38,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddComplexMappingTest.cs" />
     <Compile Include="AddSimpleMappingTest.cs" />
     <Compile Include="AutomateMappingsTest.cs" />
     <Compile Include="BasicTranslationTest.cs" />
+    <Compile Include="ComplexMappingWithConversionTest.cs" />
     <Compile Include="ConstructorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SupportClasses\MultipleFrom.cs" />

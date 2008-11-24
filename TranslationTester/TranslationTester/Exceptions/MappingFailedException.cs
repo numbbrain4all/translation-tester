@@ -62,7 +62,7 @@ namespace TranslationTester
     /// </summary>
     /// <param name="failedMappings">The mappings that failed.</param>
     /// <param name="message">The message for the exception.</param>
-    public MappingFailedException(ICollection<AbstractMapping> failedMappings, string message)
+    public MappingFailedException(ICollection<IMapping> failedMappings, string message)
       : base(message)
     {
       FailedMappings = failedMappings;
@@ -92,7 +92,7 @@ namespace TranslationTester
     /// Gets the collection of mappings that failed verification.
     /// </summary>
     /// <value>The mappings that failed verification.</value>
-    public ICollection<AbstractMapping> FailedMappings
+    public ICollection<IMapping> FailedMappings
     {
       get;
       private set;

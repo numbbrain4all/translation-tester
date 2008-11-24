@@ -29,51 +29,50 @@
 using System;
 using NUnit.Framework;
 
-namespace TranslationTester.Tests
-{
-  //Narrative:
-  //As a Developer
-  //I want to be able to verify that a translator fulfills a specific simple
-  //mapping
-  //So that I have confidence that the translator fulfills its specification
+//Narrative:
+//As a Developer
+//I want to be able to verify that a translator fulfills a specific simple
+//mapping
+//So that I have confidence that the translator fulfills its specification
 //
-  //Acceptance Criteria:
+//Acceptance Criteria:
 //
-  //Scenario 1: Simple mapping fulfilled
-  //Given that a single simple mapping has been added
-  //And the translator fulfills the mapping
-  //When  VerifyAllMappings is called
-  //Then  the method call should return sucessfully
+//Scenario 1: Simple mapping fulfilled
+//Given that a single simple mapping has been added
+//And the translator fulfills the mapping
+//When  VerifyAllMappings is called
+//Then  the method call should return sucessfully
 //
-  //Scenario 2: Simple mapping not fulfilled
-  //Given that a single simple mapping has been added
-  //And the translator does not fulfill the mapping
-  //When  VerifyAllMappings is called
-  //Then  the method call should throw an exception
-  //And the exception should detail the mapping that failed
+//Scenario 2: Simple mapping not fulfilled
+//Given that a single simple mapping has been added
+//And the translator does not fulfill the mapping
+//When  VerifyAllMappings is called
+//Then  the method call should throw an exception
+//And the exception should detail the mapping that failed
 //
-  //Scenario 3: Multiple simple mappings all fulfilled
-  //Given that two simple mapping has been added
-  //And the translator does fulfills both mappings
-  //When  VerifyAllMappings is called
-  //Then  the method call should return sucessfully
+//Scenario 3: Multiple simple mappings all fulfilled
+//Given that two simple mapping has been added
+//And the translator does fulfills both mappings
+//When  VerifyAllMappings is called
+//Then  the method call should return sucessfully
 //
-  //Scenario 4: Multiple simple mappings 1 not fulfilled
-  //Given that two simple mapping has been added
-  //And the translator fulfills only 1 mapping
-  //When  VerifyAllMappings is called
-  //Then  the method call should throw an exception
-  //And the exception should detail the mapping that failed
+//Scenario 4: Multiple simple mappings 1 not fulfilled
+//Given that two simple mapping has been added
+//And the translator fulfills only 1 mapping
+//When  VerifyAllMappings is called
+//Then  the method call should throw an exception
+//And the exception should detail the mapping that failed
 //
 //
-  //Scenario 5: Multiple simple mappings multiple not fulfilled
-  //Given that two simple mapping has been added
-  //And the translator fulfills neither mapping
-  //When  VerifyAllMappings is called
-  //Then  the method call should throw an exception
-  //And the exception should detail the mappings that failed
+//Scenario 5: Multiple simple mappings multiple not fulfilled
+//Given that two simple mapping has been added
+//And the translator fulfills neither mapping
+//When  VerifyAllMappings is called
+//Then  the method call should throw an exception
+//And the exception should detail the mappings that failed
 
-  
+namespace TranslationTester.Tests
+{  
   [TestFixture]
   public class VerifySimpleMappingsTest
   {
@@ -153,7 +152,7 @@ namespace TranslationTester.Tests
       };
       var actual= Assert.Throws<MappingFailedException>(()=>target.VerifyAllMappings(from));
       Assert.That(actual.Message,Text.Contains(mapping.ToString()));
-    }  
+    }
     
     [Test]
     [Description(@"Scenario 3: Two simple mappings are specified and fullfilled")]
@@ -197,7 +196,7 @@ namespace TranslationTester.Tests
     }
     
     [Test]
-    [Description(@"Scenario 4: If multiple mappings and both fail then the failing
+    [Description(@"Scenario 5: If multiple mappings and both fail then the failing
       mappings should be shown in the exception message")]
     public void TwoMappingsBothUnfulfilled()
     {

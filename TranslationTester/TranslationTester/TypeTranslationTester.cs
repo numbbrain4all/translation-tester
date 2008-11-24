@@ -51,14 +51,14 @@ namespace TranslationTester
     private List<string> mappedProperties;
     private List<string> allFromProperties;
     private List<string> allToProperties;
-    private List<SimpleMapping> simpleMappings;
+    private List<AbstractMapping<TFrom, TTo>> mappings;
     
     /// <summary>
     /// Initializes a new instance of the <see cref="TypeTranslationTester{TFrom, TTo}"/> class.
     /// </summary>
     public TypeTranslationTester()
     {
-      simpleMappings = new List<SimpleMapping>();
+      mappings = new List<AbstractMapping<TFrom, TTo>>();
       InitializeFromProperties();
       InitializeToProperties();
       InitializeUnmappedProperties();
@@ -94,10 +94,10 @@ namespace TranslationTester
     /// </summary>
     /// <remarks>Any property that has an idetically named property on the to class will be mapped.</remarks>
     /// <returns>The mappings that were added.</returns>
-    public Collection<SimpleMapping> AutomaticallyMapProperties()
+    public Collection<IMapping> AutomaticallyMapProperties()
     {
       var identicalProperties = new List<string>(unmappedProperties.Intersect(allToProperties));
-      var addedMappings = new Collection<SimpleMapping>();
+      var addedMappings = new Collection<IMapping>();
       foreach (var identical in identicalProperties)
       {
         try 
@@ -118,11 +118,11 @@ namespace TranslationTester
     /// <param name="fromProperty">The name of the property on the 'From' type.</param>
     /// <param name="toProperty">The name of the property on the 'To' type.</param>
     /// <returns>The mapping that was added.</returns>
-    public SimpleMapping AddMapping(string fromProperty, string toProperty)
+    public SimpleMapping<TFrom, TTo> AddMapping(string fromProperty, string toProperty)
     {
-      var mapping = new SimpleMapping(fromType, fromProperty, toType, toProperty);
+      var mapping = new SimpleMapping<TFrom, TTo>(fromProperty, toProperty);
       
-      if (simpleMappings.Contains(mapping))
+      if (mappings.Contains(mapping))
       {
         throw new PropertyAlreadyMappedException(
           string.Format(
@@ -132,13 +132,29 @@ namespace TranslationTester
       }        
 
       unmappedProperties.Remove(fromProperty);
-      simpleMappings.Add(mapping);
+      mappings.Add(mapping);
       if (false == mappedProperties.Contains(fromProperty))
       {
         mappedProperties.Add(fromProperty);
       }
       
       return mapping;
+    }
+    
+    /// <summary>
+    /// Adds a complex mapping, where the mapping match function is specified as a Func delegate.
+    /// </summary>
+    /// <param name="fromProperty">The property on the 'From' class that is being mapped.</param>
+    /// <param name="match">The Function that specifies whether the mapping was fulfilled or not.</param>
+    /// <returns>The complex mapping that was added.</returns>
+    public ComplexMapping<TFrom, TTo> AddMapping(string fromProperty, Func<TFrom, TTo, bool> match)
+    {
+      if (false == mappedProperties.Contains(fromProperty))
+      {
+        mappedProperties.Add(fromProperty);
+      }
+      
+      return new ComplexMapping<TFrom, TTo>(fromProperty, match);
     }
     
     /// <summary>
@@ -206,23 +222,21 @@ namespace TranslationTester
     public void VerifyAllMappings(TFrom from, TTo to)
     {
       VerifyFromInstance(from);
-      var failures = new List<AbstractMapping>(simpleMappings.Count);
+      var failures = new List<IMapping>(mappings.Count);
       
-      foreach (var mapping in simpleMappings)
+      foreach (var mapping in mappings)
       {
-        var fromValue = mapping.FromProperty.GetValue(from, null);
-        var toValue = mapping.ToProperty.GetValue(to, null);
-        if (false == fromValue.Equals(toValue))
+        if (false == mapping.Evaluate(from, to))
         {
           failures.Add(mapping);
-        }
+        }        
       }
       
       if (failures.Count > 0)
       {
         var failureMessage = new StringBuilder();
         failureMessage.Append(Properties.Resources.ErrorSimpleMappingFailed);
-        foreach (SimpleMapping mapping in failures)
+        foreach (SimpleMapping<TFrom, TTo> mapping in failures)
         {
           object fromValue = mapping.FromProperty.GetValue(from, null);
           object toValue = mapping.ToProperty.GetValue(to, null);
