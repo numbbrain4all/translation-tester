@@ -153,4 +153,7 @@
   <data name="ErrorNotPropertyExpression" xml:space="preserve">
     <value>Expression {0} is not a property expression</value>
   </data>
+  <data name="SimpleMappingWithValues" xml:space="preserve">
+    <value>{0}.{1} to {2}.{3}: fromValue={4}, toValue={5}</value>
+  </data>
 </root>

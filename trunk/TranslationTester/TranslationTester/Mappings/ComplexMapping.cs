@@ -71,7 +71,7 @@ namespace TranslationTester
     /// <returns>True if the mapping was fulfilled, false otherwise.</returns>
     public override bool Evaluate(TFrom fromInstance, TTo toInstance)
     {
-      throw new NotImplementedException();
+      return MatchFunction(fromInstance, toInstance);
     }
   }
 }

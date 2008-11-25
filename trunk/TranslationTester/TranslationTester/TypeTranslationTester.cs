@@ -140,12 +140,16 @@ namespace TranslationTester
       Func<TFrom, TTo, bool> match)
     {
       var fromProperty = fromProp.ToPropertyName();
+      var mapping = new ComplexMapping<TFrom, TTo>(fromProperty, match);
+      
+      unmappedProperties.Remove(fromProperty);
+      mappings.Add(mapping);
       if (false == mappedProperties.Contains(fromProperty))
       {
         mappedProperties.Add(fromProperty);
-      }
+      }     
       
-      return new ComplexMapping<TFrom, TTo>(fromProperty, match);
+      return mapping;
     }
     
     /// <summary>
@@ -228,17 +232,10 @@ namespace TranslationTester
       {
         var failureMessage = new StringBuilder();
         failureMessage.Append(Properties.Resources.ErrorSimpleMappingFailed);
-        foreach (SimpleMapping<TFrom, TTo> mapping in failures)
+        foreach (AbstractMapping<TFrom, TTo> mapping in failures)
         {
-          object fromValue = mapping.FromProperty.GetValue(from, null);
-          object toValue = mapping.ToProperty.GetValue(to, null);
           failureMessage.AppendLine();
-          failureMessage.AppendFormat(
-            CultureInfo.CurrentCulture,
-            Properties.Resources.ErrorSimpleMappingFailedSub,
-            mapping,
-            fromValue,
-            toValue == null ? "null" : toValue);
+          failureMessage.Append(mapping.ToString(from,to));
         }
         
         throw new MappingFailedException(failures, failureMessage.ToString());

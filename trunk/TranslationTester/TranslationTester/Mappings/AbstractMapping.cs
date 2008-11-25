@@ -140,5 +140,16 @@ using System.Reflection;
     /// <param name="toInstance">The instance of the 'To' class that exercised the translation.</param>
     /// <returns>True if the mapping was fulfilled, false otherwise.</returns>
     public abstract bool Evaluate(TFrom fromInstance, TTo toInstance);
+    
+    /// <summary>
+    /// Gets a string representation of this mapping, potentially based on the 'From' and 'To' instances.
+    /// </summary>
+    /// <param name="fromInstance">The instance of the 'From' class that exercised the translation.</param>
+    /// <param name="toInstance">The instance of the 'To' class that exercised the translation.</param>
+    /// <returns>A string representation of the Mapping.</returns>
+    public virtual string ToString(TFrom fromInstance, TTo toInstance)
+    {     
+      return this.ToString();
+    }
   }
 }
