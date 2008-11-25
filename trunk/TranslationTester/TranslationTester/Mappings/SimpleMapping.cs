@@ -185,8 +185,6 @@ namespace TranslationTester
       var fromValue = FromProperty.GetValue(fromInstance, null);
       var toValue = ToProperty.GetValue(toInstance, null);
       return fromValue.Equals(toValue);
-    }
-    
-    
+    }    
   }
 }

@@ -235,7 +235,7 @@ namespace TranslationTester
         foreach (AbstractMapping<TFrom, TTo> mapping in failures)
         {
           failureMessage.AppendLine();
-          failureMessage.Append(mapping.ToString(from,to));
+          failureMessage.Append(mapping.ToString(from, to));
         }
         
         throw new MappingFailedException(failures, failureMessage.ToString());
