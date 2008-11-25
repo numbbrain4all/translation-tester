@@ -41,7 +41,7 @@ using NUnit.Framework;
 //When the Developer tries to exclude the property
 //Then the test for 'AllPropertiesMapped' will not fail on this property
 //
-//Scenario 2: Property does not exist
+//Scenario 2: Property does not exist (OBSOLETE)
 //Given that the specified property does not exist on the 'From' class
 //When the Developer tries to exclude the property
 //Then the exclusion should fail
@@ -76,27 +76,9 @@ namespace TranslationTester.Tests
       VerifyAllPropertiesMapped not fail on the property")]
     public void PropertyExists()
     {
-      target.ExcludeProperty("Property1");
+      target.ExcludeProperty(f=>f.Property1);
       target.VerifyAllPropertiesMapped();
-    }
-    
-    [Test]
-    [Description(@"Scenario 2: If attempt to exclude a property that
-      does not exist then a PropertyNotFoundException should be thrown")]
-    public void PropertyDoesNotExist()
-    {
-      Assert.Throws<PropertyNotFoundException>(()=>target.ExcludeProperty("Invalid"));
-    }
-    
-    [Test]
-    [Description(@"Scenario 2: If attempt to exclude a property that
-      does not exist then a PropertyNotFoundException should be thrown with the property name in it")]
-    public void PropertyDoesNotExistExceptionContainsPropertyName()
-    {
-      var propertyName="Invalid";
-      var actual = Assert.Throws<PropertyNotFoundException>(()=>target.ExcludeProperty(propertyName));
-      Assert.That(actual.Message,Text.Contains(propertyName));
-    }
+    }      
     
     [Test]
     [Description(@"Scenario 3: If attempt to exclude a property that
@@ -104,8 +86,8 @@ namespace TranslationTester.Tests
     public void PropertyAlreadyMappedExceptionContainsPropertyName()
     {
       var propertyName="Property1";//valid
-      target.AddMapping(propertyName,"Property1");
-      var actual = Assert.Throws<PropertyAlreadyMappedException>(()=>target.ExcludeProperty(propertyName));
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
+      var actual = Assert.Throws<PropertyAlreadyMappedException>(()=>target.ExcludeProperty(f=>f.Property1));
       Assert.That(actual.Message,Text.Contains(propertyName));
     }
     
@@ -115,8 +97,8 @@ namespace TranslationTester.Tests
     public void PropertyAlreadyExcludedExceptionContainsPropertyName()
     {
       var propertyName="Property1";//valid
-      target.ExcludeProperty(propertyName);
-      var actual = Assert.Throws<PropertyAlreadyMappedException>(()=>target.ExcludeProperty(propertyName));
+      target.ExcludeProperty(f=>f.Property1);
+      var actual = Assert.Throws<PropertyAlreadyMappedException>(()=>target.ExcludeProperty(f=>f.Property1));
       Assert.That(actual.Message,Text.Contains(propertyName));
     }
     

@@ -87,43 +87,25 @@ namespace TranslationTester.Tests
       exception should be thrown")]
     public void MappedPropertyDoesNotThrow()
     {
-      target.AddMapping("Property1","Property1");
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
       target.VerifyAllPropertiesMapped();
-    }
-    
-    [Test]
-    [Description(@"Scenario 2: If a mapping is added with an invalid from property name an exception should be thrown")]
-    public void AddInvalidMappingFromThrows()
-    {
-      string invalidProp="invalid";
-      var actual = Assert.Throws<PropertyNotFoundException>(()=>target.AddMapping(invalidProp,"Property1"));
-      Assert.That(actual.Message,Text.Contains(invalidProp));
-    }
-    
-    [Test]
-    [Description(@"Scenario 2: If a mapping is added with an invalid to property name an exception should be thrown")]
-    public void AddInvalidMappingToThrows()
-    {
-      string invalidProp="invalid";
-      var actual = Assert.Throws<PropertyNotFoundException>(()=>target.AddMapping("Property1",invalidProp));
-      Assert.That(actual.Message,Text.Contains(invalidProp));
-    }
+    }   
     
     [Test]
     [Description(@"Scenario 3: If another mapping is added from the same property the add should
       suceed")]
     public void AddSecondFromMappingSucceeds()
     {
-      target.AddMapping("Property1","Property1");
-      target.AddMapping("Property1","IntProperty2");
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
+      target.AddMapping(f=>f.Property1,t=>t.IntProperty2);
     }
     
     [Test]
     [Description(@"Scenario 4: Adding two identical simple mappings should fail.")]
     public void AddDuplicateSimpleMappingThrows()
     {
-      target.AddMapping("Property1","Property1");
-      var actual = Assert.Throws<PropertyAlreadyMappedException>(()=>target.AddMapping("Property1","Property1"));
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
+      var actual = Assert.Throws<PropertyAlreadyMappedException>(()=>target.AddMapping(f=>f.Property1,t=>t.Property1));
     }
     
     [Test]
@@ -133,7 +115,7 @@ namespace TranslationTester.Tests
     public void AddMappingWithDifferentTypesImplicitConversionThrows()
     {
       var actual = Assert.Throws<ArgumentException>(
-        ()=>  target.AddMapping("Property1","Property2")//int to decimal
+        ()=>  target.AddMapping(f=>f.Property1,t=>t.Property2)//int to decimal
        );
     }
     
@@ -144,21 +126,8 @@ namespace TranslationTester.Tests
     public void AddMappingWithDifferentTypesExplicitConversionThrows()
     {
       var actual = Assert.Throws<ArgumentException>(
-        ()=>   target.AddMapping("Property1","ShortProp")//int to short
+        ()=>target.AddMapping(f=>f.Property1,t=>t.ShortProp)//int to short
        );
-    }
-    
-    [Test]
-    [Description(@"If a mapping is added from a type that can't be
-      converted to the to type (e.g. int to DateTime)
-      then the mapping should be fail")]
-    public void AddMappingWithDifferentTypesNoConversionFails()
-    {
-      // int from=1;
-      // DateTime to=(DateTime)from; //no such cast available
-      var actual = Assert.Throws<ArgumentException>(
-        ()=> target.AddMapping("Property1","DateTimeProp")//int to DateTime
-       );
-    }
+    }      
   }
 }

@@ -25,44 +25,57 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
-using System;
-using NUnit.Framework;
 
-//Narrative:
-//As a Developer
-//I want to be able to be able to test that a property was mapped from one
-//type to another
-//So that I can map properties where the types do not match
-//
-//Acceptance Criteria:
-//It should be possible to specify a complex mapping that is fulfilled
-//if the translator uses the output of a conversion meth
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+using NUnit.Framework;
 
 namespace TranslationTester.Tests
 {
   [TestFixture]
-  public class ComplexMappingWithConversionTest
+  public class PropertyByLambdaTests
   {
     TypeTranslationTester<MultipleFrom,SimpleTo> target;
-    MultipleFrom from;
-    SimpleTo to;
     
     [SetUp]
     public void Setup(){
-      target=new TypeTranslationTester<MultipleFrom, SimpleTo>();
-      from=new MultipleFrom();
-      to=new SimpleTo();
+      target=new TypeTranslationTester<MultipleFrom,SimpleTo>();
     }
     
     [Test]
-    [Description(@"An int property is mapped to a string property through ToString()")]
-    public void IntToString()
+    [Description(@"A property that is referred to by a LambdaExpression
+      should be usable for creating a mapping.")]
+    public void SimpleMappingCanBeAddedAsLambdaExpressions()
     {
-      Func<MultipleFrom, SimpleTo, bool> match=(f,t)=>{
-        return f.Property1==t.Property1;
-      };
-      
-      target.AddMapping(f=>f.Property1,match);      
+      target.AddMapping(f=>f.Property1, t=>t.Property1);
+    }
+    
+    [Test]
+    [Description(@"A property that is referred to by a standalone LambdaExpression
+      should be usable for creating a mapping.")]
+    public void SeperatePropertyLambdaExpressionAccepted()
+    {
+      Expression<Func<MultipleFrom,int>> fromProp=f=>f.Property1;
+      target.AddMapping(fromProp, t=>t.Property1);
+    }    
+    
+    [Test]
+    [Description(@"A field that is referred to by a LambdaExpression
+      should cause an exception to be thrown.")]
+    public void FieldLambdaRejected()
+    {
+      Assert.Throws<ArgumentException>(
+        ()=> target.AddMapping(f=>f.PublicField, t=>t.Property1));
+    }
+    
+    [Test]
+    [Description(@"A method that is referred to by a LambdaExpression
+      should cause an exception to be thrown.")]
+    public void MethodLambdaRejected()
+    {
+      Assert.Throws<ArgumentException>(
+        ()=> target.AddMapping(f=>f.IntMethod(), t=>t.Property1));
     }
   }
 }

@@ -39,5 +39,9 @@ namespace TranslationTester.Tests
 		public string StringProp{get;set;}
 		public SubTypeFrom RefProp{get;set;}
 		public SubStruct StructProp{get;set;}
+		public int PublicField;
+		public int IntMethod(){
+		  return 0;
+		}
 	}
 }

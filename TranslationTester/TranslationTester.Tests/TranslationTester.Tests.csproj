@@ -45,6 +45,7 @@
     <Compile Include="ComplexMappingWithConversionTest.cs" />
     <Compile Include="ConstructorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyByLambdaTests.cs" />
     <Compile Include="SupportClasses\MultipleFrom.cs" />
     <Compile Include="SupportClasses\SimpleFrom.cs" />
     <Compile Include="SupportClasses\Simpleto.cs" />

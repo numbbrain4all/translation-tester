@@ -19,6 +19,7 @@
     <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
     <AssemblyOriginatorKeyFile>TranslationTester.snk</AssemblyOriginatorKeyFile>
     <DocumentationFile>bin\Debug\TranslationTester.xml</DocumentationFile>
+    <CodeAnalysisRules>-Microsoft.Design#CA1006</CodeAnalysisRules>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -59,6 +60,7 @@
     <Compile Include="Exceptions\PropertyAlreadyMappedException.cs" />
     <Compile Include="Exceptions\PropertyNotFoundException.cs" />
     <Compile Include="Exceptions\UnmappedPropertyException.cs" />
+    <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="Mappings\AbstractMapping.cs" />
     <Compile Include="Mappings\ComplexMapping.cs" />
     <Compile Include="Mappings\IMapping.cs" />

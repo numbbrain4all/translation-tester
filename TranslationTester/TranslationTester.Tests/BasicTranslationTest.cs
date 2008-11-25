@@ -67,7 +67,7 @@ namespace TranslationTester.Tests
 		[Description(@"If a mapping is added for all properties AllPropertiesMapped should be true")]
 		public void AllPropertiesMapped()
 		{
-			target.AddMapping("Property1","Property1");
+		  target.AddMapping(f=>f.Property1,t=>t.Property1);
 			Assert.That(target.AllPropertiesMapped);
 		}		
 	}
