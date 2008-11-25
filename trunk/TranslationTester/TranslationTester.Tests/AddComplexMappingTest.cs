@@ -82,7 +82,7 @@ namespace TranslationTester.Tests
         return true;
       };
       
-      target.AddMapping("Property1",match);
+      target.AddMapping(f=>f.Property1, match);
     }
     
     [Test]
@@ -93,7 +93,7 @@ namespace TranslationTester.Tests
         return true;
       };
       
-      var actual=  target.AddMapping("Property1",match);
+      var actual=  target.AddMapping(f=>f.Property1,match);
       Assert.That(actual,Is.Not.Null);
     }
     
@@ -105,7 +105,7 @@ namespace TranslationTester.Tests
         return true;
       };
       
-      var actual=  target.AddMapping("Property1",match);
+      var actual=  target.AddMapping(f=>f.Property1,match);
       Assert.That(actual.MatchFunction,Is.EqualTo(match));
     }
   }

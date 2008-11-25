@@ -72,7 +72,7 @@ using NUnit.Framework;
 //And the exception should detail the mappings that failed
 
 namespace TranslationTester.Tests
-{  
+{
   [TestFixture]
   public class VerifySimpleMappingsTest
   {
@@ -94,7 +94,7 @@ namespace TranslationTester.Tests
       then an exception should be thrown")]
     public void NoTranslationMethodProvidedThrows()
     {
-      target.AddMapping("Property1","Property1");
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
       var actual= Assert.Throws<InvalidOperationException>(()=>target.VerifyAllMappings(from));
     }
     
@@ -103,7 +103,7 @@ namespace TranslationTester.Tests
       then no exception should be thrown")]
     public void NoTranslationMethodUseOverloadSucceeds()
     {
-      target.AddMapping("Property1","Property1");
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
       var to =new SimpleTo{
         Property1=from.Property1
       };
@@ -114,7 +114,7 @@ namespace TranslationTester.Tests
     [Description(@"Scenario 1: A single mapping is fullfilled")]
     public void SimpleMappingFulfilled()
     {
-      target.AddMapping("Property1","Property1");
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
       
       target.TranslationMethod=(val)=>
       {
@@ -130,7 +130,7 @@ namespace TranslationTester.Tests
       a single mapping that is unfullfilled an exception should be thrown")]
     public void SingleUnfulfilledMappingThrows()
     {
-      target.AddMapping("Property1","Property1");
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
       
       target.TranslationMethod=(val)=>
       {
@@ -144,7 +144,7 @@ namespace TranslationTester.Tests
       mapping that failed")]
     public void SingleUnfulfilledMappingExceptionContainsMappingString()
     {
-      var mapping=  target.AddMapping("Property1","Property1");
+      var mapping=target.AddMapping(f=>f.Property1,t=>t.Property1);
 
       target.TranslationMethod=(val)=>
       {
@@ -158,8 +158,8 @@ namespace TranslationTester.Tests
     [Description(@"Scenario 3: Two simple mappings are specified and fullfilled")]
     public void MultipleMappingFulfilled()
     {
-      target.AddMapping("Property1","Property1");
-      target.AddMapping("StringProp","StringProperty");
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
+      target.AddMapping(f=>f.StringProp,t=>t.StringProperty);
       from=new MultipleFrom{
         Property1=1,
         StringProp="string"
@@ -179,8 +179,8 @@ namespace TranslationTester.Tests
       mapping should be shown in the exception message")]
     public void TwoMappingsOneFulfilled()
     {
-      target.AddMapping("Property1","Property1");
-      var unfulfilled=  target.AddMapping("StringProp","StringProperty");
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
+      var unfulfilled=target.AddMapping(f=>f.StringProp,t=>t.StringProperty);
       from=new MultipleFrom{
         Property1=1,
         StringProp="string"
@@ -200,8 +200,8 @@ namespace TranslationTester.Tests
       mappings should be shown in the exception message")]
     public void TwoMappingsBothUnfulfilled()
     {
-      var unfulfilled1= target.AddMapping("Property1","Property1");
-      var unfulfilled2= target.AddMapping("StringProp","StringProperty");
+      var unfulfilled1= target.AddMapping(f=>f.Property1,t=>t.Property1);
+      var unfulfilled2=  target.AddMapping(f=>f.StringProp,t=>t.StringProperty);
       from=new MultipleFrom{
         Property1=1,
         StringProp="string"

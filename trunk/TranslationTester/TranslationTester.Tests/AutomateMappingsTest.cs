@@ -120,7 +120,7 @@ namespace TranslationTester.Tests
     public void MappingAlreadyExistsNoChange()
     {
       var prop="Property1";
-      target.AddMapping(prop,prop);
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
       var mappings= target.AutomaticallyMapProperties();
       Assert.IsFalse(mappings.Any(p=>p.FromProperties[0].Name==prop));
     }
@@ -131,8 +131,7 @@ namespace TranslationTester.Tests
     public void OtherMappingAlreadyExistsMappingAdded()
     {
       var prop="Property1";
-      var prop2="StringProp";
-      target.AddMapping(prop2,prop2);
+      target.AddMapping(f=>f.StringProp,t=>t.StringProp);
       var mappings= target.AutomaticallyMapProperties();
       Assert.IsTrue(mappings.Any(p=>p.FromProperties[0].Name==prop));
     }
@@ -143,7 +142,7 @@ namespace TranslationTester.Tests
     public void PropertyAlreadyExcludedNoChange()
     {
       var prop="Property1";
-      target.ExcludeProperty(prop);
+      target.ExcludeProperty(f=>f.Property1);
       var mappings= target.AutomaticallyMapProperties();
       Assert.IsFalse(mappings.Any(p=>p.FromProperties[0].Name==prop));
     }
@@ -154,8 +153,7 @@ namespace TranslationTester.Tests
     public void OtherPropertyAlreadyExcludedMappingAdded()
     {
       var prop="Property1";
-      var prop2="StringProp";
-      target.ExcludeProperty(prop2);
+      target.ExcludeProperty(f=>f.StringProp);
       var mappings= target.AutomaticallyMapProperties();
       Assert.IsTrue(mappings.Any(p=>p.FromProperties[0].Name==prop));
     }

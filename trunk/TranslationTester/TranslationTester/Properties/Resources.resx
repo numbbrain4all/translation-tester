@@ -147,4 +147,10 @@
   <data name="ErrorTranslationMethodNotSpecified" xml:space="preserve">
     <value>No translation method specified, either specify the translationMethod to be called or do the translation elsewhere and use the overload of VerifyAllMappings accepting an instance of the to type.</value>
   </data>
+  <data name="ErrorExpressionNotSupported" xml:space="preserve">
+    <value>Unsupported Expression {0}</value>
+  </data>
+  <data name="ErrorNotPropertyExpression" xml:space="preserve">
+    <value>Expression {0} is not a property expression</value>
+  </data>
 </root>

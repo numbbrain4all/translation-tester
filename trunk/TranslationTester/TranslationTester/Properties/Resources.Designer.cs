@@ -103,6 +103,17 @@ namespace TranslationTester.Properties
     }
     
     /// <summary>
+    ///   Looks up a localized string similar to Unsupported Expression {0}.
+    /// </summary>
+    internal static string ErrorExpressionNotSupported
+    {
+      get
+      {
+        return ResourceManager.GetString("ErrorExpressionNotSupported", resourceCulture);
+      }
+    }
+    
+    /// <summary>
     ///   Looks up a localized string similar to Unable to verify mappings as the following mapped properties had default values:.
     /// </summary>
     internal static string ErrorFromPropertyHasDefaultValue
@@ -110,6 +121,17 @@ namespace TranslationTester.Properties
       get
       {
         return ResourceManager.GetString("ErrorFromPropertyHasDefaultValue", resourceCulture);
+      }
+    }
+    
+    /// <summary>
+    ///   Looks up a localized string similar to Expression {0} is not a property expression.
+    /// </summary>
+    internal static string ErrorNotPropertyExpression
+    {
+      get
+      {
+        return ResourceManager.GetString("ErrorNotPropertyExpression", resourceCulture);
       }
     }
     

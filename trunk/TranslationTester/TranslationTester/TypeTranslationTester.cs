@@ -34,6 +34,7 @@ namespace TranslationTester
   using System.ComponentModel;
   using System.Globalization;
   using System.Linq;
+  using System.Linq.Expressions;
   using System.Reflection;
   using System.Text;
 
@@ -100,12 +101,12 @@ namespace TranslationTester
       var addedMappings = new Collection<IMapping>();
       foreach (var identical in identicalProperties)
       {
-        try 
+        try
         {
           addedMappings.Add(AddMapping(identical, identical));
-        } 
-        catch (ArgumentException) 
-        { 
+        }
+        catch (ArgumentException)
+        {
         }
       }
       
@@ -115,40 +116,30 @@ namespace TranslationTester
     /// <summary>
     /// Adds a simple one-to-one mapping to the translation specification.
     /// </summary>
-    /// <param name="fromProperty">The name of the property on the 'From' type.</param>
-    /// <param name="toProperty">The name of the property on the 'To' type.</param>
-    /// <returns>The mapping that was added.</returns>
-    public SimpleMapping<TFrom, TTo> AddMapping(string fromProperty, string toProperty)
+    /// <param name="fromProp">The from property expression.</param>
+    /// <param name="toProp">The to property expression.</param>
+    /// <typeparam name="TProp">The type of property being mapped.</typeparam>
+    /// <returns>The generated simple mapping.</returns>
+    public SimpleMapping<TFrom, TTo> AddMapping<TProp>(
+      Expression<Func<TFrom, TProp>> fromProp,
+      Expression<Func<TTo, TProp>> toProp)
     {
-      var mapping = new SimpleMapping<TFrom, TTo>(fromProperty, toProperty);
-      
-      if (mappings.Contains(mapping))
-      {
-        throw new PropertyAlreadyMappedException(
-          string.Format(
-            CultureInfo.CurrentCulture,
-            Properties.Resources.ErrorSimpleMappingMappingAlreadyExists,
-            mapping));
-      }        
+      var fromName = fromProp.ToPropertyName();
+      var toName = toProp.ToPropertyName();
+      return AddMapping(fromName, toName);
+    }   
 
-      unmappedProperties.Remove(fromProperty);
-      mappings.Add(mapping);
-      if (false == mappedProperties.Contains(fromProperty))
-      {
-        mappedProperties.Add(fromProperty);
-      }
-      
-      return mapping;
-    }
-    
     /// <summary>
     /// Adds a complex mapping, where the mapping match function is specified as a Func delegate.
     /// </summary>
-    /// <param name="fromProperty">The property on the 'From' class that is being mapped.</param>
+    /// <param name="fromProp">The property on the 'From' class that is being mapped.</param>
     /// <param name="match">The Function that specifies whether the mapping was fulfilled or not.</param>
     /// <returns>The complex mapping that was added.</returns>
-    public ComplexMapping<TFrom, TTo> AddMapping(string fromProperty, Func<TFrom, TTo, bool> match)
+    public ComplexMapping<TFrom, TTo> AddMapping(
+      Expression<Func<TFrom, object>> fromProp,
+      Func<TFrom, TTo, bool> match)
     {
+      var fromProperty = fromProp.ToPropertyName();
       if (false == mappedProperties.Contains(fromProperty))
       {
         mappedProperties.Add(fromProperty);
@@ -160,9 +151,10 @@ namespace TranslationTester
     /// <summary>
     /// Excludes a property on the 'From' type from being mapped.
     /// </summary>
-    /// <param name="fromProperty">The name of the property on the 'From' type.</param>
-    public void ExcludeProperty(string fromProperty)
+    /// <param name="fromProp">The name of the property on the 'From' type.</param>
+    public void ExcludeProperty(Expression<Func<TFrom, object>> fromProp)
     {
+      var fromProperty = fromProp.ToPropertyName();
       if (false == allFromProperties.Contains(fromProperty))
       {
         throw new PropertyNotFoundException(
@@ -229,7 +221,7 @@ namespace TranslationTester
         if (false == mapping.Evaluate(from, to))
         {
           failures.Add(mapping);
-        }        
+        }
       }
       
       if (failures.Count > 0)
@@ -285,7 +277,7 @@ namespace TranslationTester
           Properties.Resources.ErrorFromPropertyHasDefaultValue + failureMessage.ToString(),
           "from");
       }
-    }
+    }    
     
     private static object GetDefaultValueForType(Type type)
     {
@@ -297,6 +289,29 @@ namespace TranslationTester
       {
         return null;
       }
+    }
+    
+    private SimpleMapping<TFrom, TTo> AddMapping(string fromProperty, string toProperty)
+    {
+      var mapping = new SimpleMapping<TFrom, TTo>(fromProperty, toProperty);
+      
+      if (mappings.Contains(mapping))
+      {
+        throw new PropertyAlreadyMappedException(
+          string.Format(
+            CultureInfo.CurrentCulture,
+            Properties.Resources.ErrorSimpleMappingMappingAlreadyExists,
+            mapping));
+      }
+
+      unmappedProperties.Remove(fromProperty);
+      mappings.Add(mapping);
+      if (false == mappedProperties.Contains(fromProperty))
+      {
+        mappedProperties.Add(fromProperty);
+      }
+      
+      return mapping;
     }
     
     private void InitializeFromProperties()

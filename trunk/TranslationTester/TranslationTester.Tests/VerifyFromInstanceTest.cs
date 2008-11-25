@@ -113,8 +113,8 @@ namespace TranslationTester.Tests
       as it will be impossible to verify the mapping of this property")]
     public void ValueTypeNotSetThrows()
     {
-      target.AddMapping("Property1","Property1");
-      
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
+     
       var actual= Assert.Throws<ArgumentException>(()=>target.VerifyFromInstance(from));
     }
     
@@ -122,7 +122,7 @@ namespace TranslationTester.Tests
     [Description(@"Scenario 3: strings can be tricky, worth their own test")]
     public void StringTypeNotSetThrows()
     {
-      target.AddMapping("StringProp","StringProperty");
+      target.AddMapping(f=>f.StringProp,t=>t.StringProperty);
       
       var actual= Assert.Throws<ArgumentException>(()=>target.VerifyFromInstance(from));
     }
@@ -135,7 +135,7 @@ namespace TranslationTester.Tests
         return true;
       };
       
-      target.AddMapping("RefProp",match);
+      target.AddMapping(f=>f.RefProp,match);
       
       var actual= Assert.Throws<ArgumentException>(()=>target.VerifyFromInstance(from));
     }
@@ -144,7 +144,7 @@ namespace TranslationTester.Tests
     [Description(@"Scenario 6: unassigned struct types should throw")]
     public void StructTypeNotSetThrows()
     {
-      target.AddMapping("StructProp","StructProperty");
+      target.AddMapping(f=>f.StructProp,t=>t.StructProperty);
       
       var actual= Assert.Throws<ArgumentException>(()=>target.VerifyFromInstance(from));
     }
@@ -153,7 +153,7 @@ namespace TranslationTester.Tests
     [Description(@"Scenario 6: assigned struct types should not throw")]
     public void StructTypeSetDoesntThrow()
     {
-      target.AddMapping("StructProp","StructProperty");
+      target.AddMapping(f=>f.StructProp,t=>t.StructProperty);
       
       from.StructProp=new SubStruct{member=1};
       
@@ -166,8 +166,8 @@ namespace TranslationTester.Tests
     {
       var fromProp1="StringProp";
       var fromProp2="Property1";
-      target.AddMapping(fromProp1,"StringProperty");
-      target.AddMapping(fromProp2,"Property1");
+      target.AddMapping(f=>f.StringProp,t=>t.StringProperty);
+      target.AddMapping(f=>f.Property1,t=>t.Property1);
       
       var actual= Assert.Throws<ArgumentException>(()=>target.VerifyFromInstance(from));
       Assert.That(actual.Message,Text.Contains(fromProp1));
@@ -178,14 +178,13 @@ namespace TranslationTester.Tests
     [Description(@"Scenario 5: Calling veridy all mappings should also verify the from instance")]
     public void VerifyAllMappingsVerifiesFromInstance()
     {
-      var fromProp1="StringProp";
       target.TranslationMethod=(val)=>
       {
         return new SimpleTo{
           StringProperty=val.StringProp
         };
       };
-      target.AddMapping(fromProp1,"StringProperty");
+      target.AddMapping(f=>f.StringProp,t=>t.StringProperty);
       
       var actual= Assert.Throws<ArgumentException>(()=>target.VerifyAllMappings(from));
     }
