@@ -112,6 +112,27 @@ namespace TranslationTester
     }
     
     /// <summary>
+    /// Gets a string representation of this mapping, potentially based on the 'From' and 'To' instances.
+    /// </summary>
+    /// <param name="fromInstance">The instance of the 'From' class that exercised the translation.</param>
+    /// <param name="toInstance">The instance of the 'To' class that exercised the translation.</param>
+    /// <returns>A string representation of the Simple Mapping.</returns>
+    public override string ToString(TFrom fromInstance, TTo toInstance)
+    {
+      object fromValue = FromProperty.GetValue(fromInstance, null);
+      object toValue = ToProperty.GetValue(toInstance, null);
+      return string.Format(
+        CultureInfo.CurrentCulture,
+        Properties.Resources.SimpleMappingWithValues,
+        FromName,
+        FromProperty,
+        ToName,
+        ToProperty,
+        fromValue,
+        toValue == null ? "null" : toValue);      
+    }
+    
+    /// <summary>
     /// Gets a hash code for this simple mapping.
     /// </summary>
     /// <returns>An int to use as a hash code for this mapping.</returns>
@@ -165,5 +186,7 @@ namespace TranslationTester
       var toValue = ToProperty.GetValue(toInstance, null);
       return fromValue.Equals(toValue);
     }
+    
+    
   }
 }

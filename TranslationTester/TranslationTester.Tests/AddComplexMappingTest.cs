@@ -70,7 +70,7 @@ namespace TranslationTester.Tests
     [SetUp]
     public void Setup(){
       target=new TypeTranslationTester<MultipleFrom, SimpleTo>();
-      from=new MultipleFrom();
+      from=new MultipleFrom{Property1=1};
       to=new SimpleTo();
     }
     
@@ -78,22 +78,14 @@ namespace TranslationTester.Tests
     [Description(@"Scenario 1: From property exists, doesn't throw")]
     public void FromPropertyExists()
     {
-      Func<MultipleFrom, SimpleTo, bool> match=(f,t)=>{
-        return true;
-      };
-      
-      target.AddMapping(f=>f.Property1, match);
+      target.AddMapping(f=>f.Property1,(f,t) =>{return true;});
     }
     
     [Test]
     [Description(@"Scenario 1: From property exists, a mapping should be returned")]
     public void FromPropertyExistsMappingReturned()
     {
-      Func<MultipleFrom, SimpleTo, bool> match=(f,t)=>{
-        return true;
-      };
-      
-      var actual=  target.AddMapping(f=>f.Property1,match);
+      var actual= target.AddMapping(f=>f.Property1,(f,t) =>{return true;});
       Assert.That(actual,Is.Not.Null);
     }
     
@@ -104,9 +96,43 @@ namespace TranslationTester.Tests
       Func<MultipleFrom, SimpleTo, bool> match=(f,t)=>{
         return true;
       };
-      
-      var actual=  target.AddMapping(f=>f.Property1,match);
+      var actual= target.AddMapping(f=>f.Property1, match);
       Assert.That(actual.MatchFunction,Is.EqualTo(match));
+    }
+    
+    [Test]
+    [Description(@"Mapping a property twice should not cause an error")]
+    public void PropertyMappedTwiceDoesNotThrow()
+    {
+      target.AddMapping(f=>f.Property1, (f,t) =>{return true;});
+      target.AddMapping(f=>f.Property1, (f,t) =>{return 0==0;});
+    }
+    
+    [Test]
+    [Description(@"Mapping a property should mean that the property will not cause VerifyAllMapped to fail")]
+    public void PropertyIsMarkedAsMapped()
+    {
+      var target=new TypeTranslationTester<SimpleFrom, SimpleTo>();
+      target.AddMapping(f=>f.Property1, (f,t) =>{return true;});
+      target.VerifyAllPropertiesMapped();
+    }
+    
+    [Test]
+    [Description(@"Adding a mapping and then calling verify should only pass if the mapping returns true")]
+    public void MappingIsVerified()
+    {
+      target.AddMapping(f=>f.Property1, (f,t) =>{return true;});
+      target.VerifyAllMappings(from,to);
+    }
+    
+    [Test]
+    [Description(@"Adding a mapping and then calling verify should fail
+      if the mapping returns false")]
+    public void MappingFailsShouldThrow()
+    {
+      target.AddMapping(f=>f.Property1, (f,t) =>{return false;});
+      Assert.Throws<MappingFailedException>(
+        ()=>target.VerifyAllMappings(from,to));
     }
   }
 }

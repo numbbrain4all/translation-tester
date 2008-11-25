@@ -200,5 +200,16 @@ namespace TranslationTester.Properties
         return ResourceManager.GetString("SimpleMapping", resourceCulture);
       }
     }
+    
+    /// <summary>
+    ///   Looks up a localized string similar to {0}.{1} to {2}.{3}: fromValue={4}, toValue={5}.
+    /// </summary>
+    internal static string SimpleMappingWithValues
+    {
+      get
+      {
+        return ResourceManager.GetString("SimpleMappingWithValues", resourceCulture);
+      }
+    }
   }
 }
