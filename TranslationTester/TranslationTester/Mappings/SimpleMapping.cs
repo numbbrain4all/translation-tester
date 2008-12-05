@@ -106,9 +106,9 @@ namespace TranslationTester
         CultureInfo.CurrentCulture,
         Properties.Resources.SimpleMapping,
         FromName,
-        FromProperty,
+        FromPropertyName,
         ToName,
-        ToProperty);
+        ToPropertyName);
     }
     
     /// <summary>
@@ -125,9 +125,9 @@ namespace TranslationTester
         CultureInfo.CurrentCulture,
         Properties.Resources.SimpleMappingWithValues,
         FromName,
-        FromProperty,
+        FromPropertyName,
         ToName,
-        ToProperty,
+        ToPropertyName,
         fromValue,
         toValue == null ? "null" : toValue);      
     }

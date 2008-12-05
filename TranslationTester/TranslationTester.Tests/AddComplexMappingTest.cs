@@ -134,5 +134,15 @@ namespace TranslationTester.Tests
       Assert.Throws<MappingFailedException>(
         ()=>target.VerifyAllMappings(from,to));
     }
+    
+    [Test]
+    [Description(@"The exception thrown when the mapping fails should contain the mapping")]
+    public void MappingFailsExceptionContainsMapping()
+    {
+      var mapping=target.AddMapping(f=>f.Property1, (f,t) =>{return false;});
+      var actual= Assert.Throws<MappingFailedException>(
+        ()=>target.VerifyAllMappings(from,to));
+      Assert.That(actual.FailedMappings,Has.Member(mapping));
+    }
   }
 }

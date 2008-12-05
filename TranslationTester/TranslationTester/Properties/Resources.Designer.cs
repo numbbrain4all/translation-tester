@@ -70,6 +70,17 @@ namespace TranslationTester.Properties
     }
     
     /// <summary>
+    ///   Looks up a localized string similar to mapping from {0}.{1}.
+    /// </summary>
+    internal static string AbstractMapping
+    {
+      get
+      {
+        return ResourceManager.GetString("AbstractMapping", resourceCulture);
+      }
+    }
+    
+    /// <summary>
     ///   Looks up a localized string similar to &apos;{0}.{1}&apos; had the default value of &apos;{2}&apos;.
     /// </summary>
     internal static string ErrorDefaultValueForProperty
