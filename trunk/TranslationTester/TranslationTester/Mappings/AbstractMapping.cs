@@ -28,10 +28,10 @@
 
 namespace TranslationTester
 {
-using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Reflection;
+  using System;
+  using System.Collections.ObjectModel;
+  using System.Globalization;
+  using System.Reflection;
 
   /// <summary>
   /// Abstract base class for all mappings.
@@ -49,7 +49,7 @@ using System.Reflection;
       FromType = typeof(TFrom);
       ToType = typeof(TTo);
       FromProperty = FromType.GetProperty(fromProperty);
-      if (FromProperty == null) 
+      if (FromProperty == null)
       {
         throw new PropertyNotFoundException(string.Format(CultureInfo.CurrentCulture, Properties.Resources.ErrorSimpleMappingPropertyNotFound, FromName, fromProperty));
       }
@@ -59,7 +59,7 @@ using System.Reflection;
     /// Gets the <see cref="Type" /> of the 'From' type.
     /// </summary>
     /// <value>The <see cref="Type" /> of the 'From' type.</value>
-    public Type FromType 
+    public Type FromType
     {
       get;
       private set;
@@ -69,7 +69,7 @@ using System.Reflection;
     /// Gets the <see cref="Type" /> of the 'To' type.
     /// </summary>
     /// <value>The <see cref="Type" /> of the 'To' type.</value>
-    public Type ToType 
+    public Type ToType
     {
       get;
       private set;
@@ -79,7 +79,7 @@ using System.Reflection;
     /// Gets the <see cref="PropertyInfo"/> of the 'From' property.
     /// </summary>
     /// <value>The <see cref="PropertyInfo"/> of the 'From' property.</value>
-    public PropertyInfo FromProperty 
+    public PropertyInfo FromProperty
     {
       get;
       private set;
@@ -89,7 +89,7 @@ using System.Reflection;
     /// Gets the <see cref="Type"/> of the 'From' property.
     /// </summary>
     /// <value>Gets the <see cref="Type"/> of the 'From' property.</value>
-    public Type FromPropertyType 
+    public Type FromPropertyType
     {
       get { return FromProperty.PropertyType; }
     }
@@ -98,7 +98,7 @@ using System.Reflection;
     /// Gets the name of the 'From' type.
     /// </summary>
     /// <value>The name of the 'From' type.</value>
-    public string FromName 
+    public string FromName
     {
       get { return FromType.Name; }
     }
@@ -107,7 +107,7 @@ using System.Reflection;
     /// Gets the name of the 'To' type.
     /// </summary>
     /// <value>The name of the 'To' type.</value>
-    public string ToName 
+    public string ToName
     {
       get { return ToType.Name; }
     }
@@ -116,7 +116,7 @@ using System.Reflection;
     /// Gets the name of the property on the 'From' type.
     /// </summary>
     /// <value>The property on the 'From' type.</value>
-    public string FromPropertyName 
+    public string FromPropertyName
     {
       get { return FromProperty.Name; }
     }
@@ -142,13 +142,26 @@ using System.Reflection;
     public abstract bool Evaluate(TFrom fromInstance, TTo toInstance);
     
     /// <summary>
+    /// Returns a string representation of the Mapping.
+    /// </summary>
+    /// <returns>A string representation of the Mapping.</returns>
+    public override string ToString()
+    {
+       return string.Format(
+        CultureInfo.CurrentCulture,
+        Properties.Resources.AbstractMapping,
+        FromName,
+        FromPropertyName);
+    }
+    
+    /// <summary>
     /// Gets a string representation of this mapping, potentially based on the 'From' and 'To' instances.
     /// </summary>
     /// <param name="fromInstance">The instance of the 'From' class that exercised the translation.</param>
     /// <param name="toInstance">The instance of the 'To' class that exercised the translation.</param>
     /// <returns>A string representation of the Mapping.</returns>
     public virtual string ToString(TFrom fromInstance, TTo toInstance)
-    {     
+    {
       return this.ToString();
     }
   }

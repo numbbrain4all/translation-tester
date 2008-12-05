@@ -156,4 +156,7 @@
   <data name="SimpleMappingWithValues" xml:space="preserve">
     <value>{0}.{1} to {2}.{3}: fromValue={4}, toValue={5}</value>
   </data>
+  <data name="AbstractMapping" xml:space="preserve">
+    <value>mapping from {0}.{1}</value>
+  </data>
 </root>
